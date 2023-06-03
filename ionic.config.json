@@ -1,0 +1,7 @@
+{
+  "name": "sd-gen",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

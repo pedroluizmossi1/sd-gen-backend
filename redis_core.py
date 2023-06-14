@@ -1,8 +1,13 @@
 import redis
 from crypto_dash.crypto_core import generate_hash
 import json
+from config_core import get_config
 
-r = redis.Redis(host='localhost', port=6379, decode_responses=True, db=0)
+host = get_config('REDIS', 'redis_host')
+port = get_config('REDIS', 'redis_port')
+db = get_config('REDIS', 'redis_db')
+
+r = redis.Redis(host=host, port=port, decode_responses=True, db=db)
 
 def insert_json(json, time):
     hash = generate_hash()

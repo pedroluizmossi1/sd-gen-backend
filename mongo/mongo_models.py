@@ -16,6 +16,18 @@ class User(BaseModel):
         token: str
         user: str
 
+    class UserInsert(BaseModel):
+        login: str
+        password: str
+        email: str
+        first_name: str = None
+        last_name: str = None
+
+    class UserUpdate(BaseModel):
+        email: str
+        first_name: str = None
+        last_name: str = None
+
     class Config:
         schema_extra = {
             "example": {

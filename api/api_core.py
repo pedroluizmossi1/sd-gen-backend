@@ -1,11 +1,11 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request, Response, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .api_auth import router_auth as router_auth
 from .api_collections import router_collection as router_collection
 from .api_users import router_user as router_user
+from config_core import get_config
 
 app = FastAPI()
-
 origins = [
     "http://192.168.100.44:8100",
     "http://localhost:8100",
@@ -22,6 +22,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    
 )
 
 app.include_router(router_auth)

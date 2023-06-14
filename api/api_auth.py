@@ -16,6 +16,7 @@ router_auth = APIRouter(
 
 @router_auth.post("/login")
 async def login(user_login: mongo_models.User.Login):
+    user_login.login = user_login.login.lower()
     if login_user(user_login.login, user_login.password):
         try:
             token = insert_json(json.dumps({"login":user_login.login}), 36000) 

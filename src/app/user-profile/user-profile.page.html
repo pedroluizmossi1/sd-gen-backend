@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="userProfileForm">
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input disabled value={{user.username}}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email" value={{user.email}}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">First Name</ion-label>
+      <ion-input formControlName="first_name" value={{user.first_name}}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Last Name</ion-label>
+      <ion-input formControlName="last_name" value={{user.last_name}}></ion-input>
+    </ion-item>
+  </form>
+
+  <ion-button expand="full" (click)="updateUserProfile()">Update Profile</ion-button>
+  <ion-loading message="Updating profile..." [isOpen]="loadingPresented"></ion-loading>
+</ion-content>

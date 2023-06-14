@@ -11,6 +11,14 @@ const routes: Routes = [
   { path: 'menu', component: MenuComponent, children: [
     { path: 'informacoes', component: InformacoesComponent }
   ]},
+  {
+    path: 'create-account',
+    loadChildren: () => import('./create-account/create-account.module').then( m => m.CreateAccountPageModule)
+  },
+  {
+    path: 'user-profile',
+    loadChildren: () => import('./user-profile/user-profile.module').then( m => m.UserProfilePageModule),canActivate: [AuthGuard]
+  },
 ];
 @NgModule({
   imports: [

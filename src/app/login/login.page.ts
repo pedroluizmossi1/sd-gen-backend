@@ -37,6 +37,10 @@ export class LoginPage implements OnInit {
       );
   }
 
+  register() {
+    this.navCtrl.navigateForward('/create-account');
+  }
+
   ngOnInit() {
     // Habilitar o botão de login quando o formulário for válido
     const loginButton = document.querySelector('#login-button') as HTMLButtonElement;

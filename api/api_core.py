@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Depends, Request, Response, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .api_auth import router_auth as router_auth
-from .api_collections import router_collection as router_collection
+from .api_folders import router_collection as router_collection
 from .api_users import router_user as router_user
+from .api_roles import router_role as router_role
 from config_core import get_config
 
 app = FastAPI()
@@ -28,6 +29,7 @@ app.add_middleware(
 app.include_router(router_auth)
 app.include_router(router_collection)
 app.include_router(router_user)
+app.include_router(router_role)
 
 
 @app.get("/")

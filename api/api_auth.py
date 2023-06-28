@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import json
-from mongo.mongo_core import login_user
+from mongo.mongo_core import login_user, get_user_permission, get_user_by_login_ret_id
 import mongo.mongo_models as mongo_models
 from redis_core import insert_json, get_json, delete_json
 
@@ -47,4 +47,14 @@ async def authorize_token(credentials: HTTPAuthorizationCredentials = Depends(au
         return json.loads(response)["login"]
     else:
         raise HTTPException(status_code=401, detail="Token invalid")
+    
+async def check_permission(permission: str, login: str = Depends(authorize_token)):
+    if login:
+        login = get_user_by_login_ret_id(login)
+        if get_user_permission(login, permission):
+            return True
+        else:
+            raise HTTPException(status_code=401, detail="Unauthorized")
+    
+
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from mongo.mongo_core import create_folder, get_folder_by_name, get_folder_by_owner
-import mongo.mongo_models as mongo_models
+import mongo.functions.folder_functions as folder_functions
+import mongo.models.folder_model as folder_model
 
 
 router_collection = APIRouter(
@@ -10,7 +10,7 @@ router_collection = APIRouter(
 )
 
 @router_collection.post("/")
-async def insert(collection: mongo_models.Folder):
-    return create_folder(collection)
+async def insert(collection: folder_model.Folder):
+    return folder_functions.create_folder(collection)
     
     

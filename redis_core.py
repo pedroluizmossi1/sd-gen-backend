@@ -27,5 +27,27 @@ def delete_json(hash):
         return True
     except:
         return False
+    
+def get_all_string_values(value):
+    keys = r.scan_iter('*')
+    values = []
+    for key in keys:
+        data = r.get(key)
+        if data:
+            json_data = json.loads(data)
+            if isinstance(json_data, dict) and 'login' in json_data and json_data['login'] == value:
+                values.append(key)
+    return values
+
+def delete_all_string_values(value):
+    keys = r.scan_iter('*')
+    for key in keys:
+        data = r.get(key)
+        if data:
+            json_data = json.loads(data)
+            if isinstance(json_data, dict) and 'login' in json_data and json_data['login'] == value:
+                r.delete(key)
+    return True
+
       
 

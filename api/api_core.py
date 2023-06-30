@@ -31,8 +31,3 @@ app.include_router(router_collection)
 app.include_router(router_user)
 app.include_router(router_role)
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-

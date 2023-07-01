@@ -10,7 +10,7 @@ auth_scheme = HTTPBearer()
 
 router_auth = APIRouter(
     prefix="/auth",
-    tags=["auth"],
+    tags=["Auth"],
     responses={404: {"description": "Not found"}},
 )
 
@@ -23,35 +23,42 @@ async def authorize_token(credentials: HTTPAuthorizationCredentials = Depends(au
     
 async def check_permission(request: Request, login: str = Depends(authorize_token)):
     path = request.url.path
+    method = request.method
+    login_name = login
     if login:
         login = user_functions.get_user_by_login_ret_id(login)
-        if user_functions.get_user_permission(login, path):
-            return True
+        if user_functions.get_user_permission(login, path, method):
+            return {"login": login_name, "permission": True}
         else:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-
-@router_auth.post("/login")
-async def login(user_login: user_model.User.Login):
-    user_login.login = user_login.login.lower()
-    if user_functions.login_user(user_login.login, user_login.password):
-        try:
-            token = insert_json(json.dumps({"login":user_login.login}), 36000) 
-            return {"message": "Login success", "token": token}
-        except:
-            raise HTTPException(status_code=500, detail="Failed to create token") 
+            return {"login": login_name, "permission": False}
     else:
-        raise HTTPException(status_code=401, detail="Login failed")
+        return False
+    
+        
 
-@router_auth.post("/logout")
-async def logout(login: str = Depends(authorize_token)):
+@router_auth.post("/login/")
+async def user_login(user_login: user_model.User.Login):
+    login = user_functions.login_user(user_login.login, user_login.password)
+    token = insert_json(json.dumps({"login":user_login.login}), 36000)
+    if login == True and token["bool"] != False:
+        return {"message": "Login success", "token": token["hash"]}
+    elif login == False:
+        raise HTTPException(status_code=401, detail="Login failed")
+    else:
+        raise HTTPException(status_code=500, detail={"MongoDB":login, "Redis": token["message"]})
+    
+
+
+@router_auth.post("/logout/")
+async def user_logout(login: str = Depends(authorize_token)):
     try:
         delete_all_string_values(login)
         return {"message": "Logout success"}
     except:
         raise HTTPException(status_code=500, detail="Failed to logout")
     
-@router_auth.get("/check")
-async def check(token: str):
+@router_auth.get("/check/")
+async def check_token(token: str):
     if get_json(token):
         return True
     else:

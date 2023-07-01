@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, constr, validate_model, ValidationError, 
 class Permission(BaseModel):
     name: str
     resource: str
+    method: str
     description: str = None
 
     class Config:
@@ -10,6 +11,7 @@ class Permission(BaseModel):
             "example": {
                 "name": "permission",
                 "resource": "resource",
+                "method": "method",
                 "description": "description"
             }
         }

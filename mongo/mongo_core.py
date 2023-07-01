@@ -97,8 +97,57 @@ def get_document_by_id(collection, id):
     else:
         return False
 
-
-
+def handle_mongo_exceptions(exception):
+    if isinstance(exception, pymongo.errors.AutoReconnect):
+        return "Database connection error."
+    elif isinstance(exception, pymongo.errors.BulkWriteError):
+        return "Error executing bulk operations."
+    elif isinstance(exception, pymongo.errors.CollectionInvalid):
+        return "The collection is invalid."
+    elif isinstance(exception, pymongo.errors.ConfigurationError):
+        return "Configuration error."
+    elif isinstance(exception, pymongo.errors.ConnectionFailure):
+        return "Database connection failure."
+    elif isinstance(exception, pymongo.errors.CursorNotFound):
+        return "Query cursor not found."
+    elif isinstance(exception, pymongo.errors.DocumentTooLarge):
+        return "The document is too large to be stored on the server."
+    elif isinstance(exception, pymongo.errors.DuplicateKeyError):
+        return "Duplicate key found during insert or update."
+    elif isinstance(exception, pymongo.errors.EncryptedCollectionError):
+        return "Error creating an encrypted collection."
+    elif isinstance(exception, pymongo.errors.EncryptionError):
+        return "Encryption or decryption error."
+    elif isinstance(exception, pymongo.errors.ExecutionTimeout):
+        return "Operation timeout reached."
+    elif isinstance(exception, pymongo.errors.InvalidName):
+        return "Invalid name used."
+    elif isinstance(exception, pymongo.errors.InvalidOperation):
+        return "Invalid operation."
+    elif isinstance(exception, pymongo.errors.InvalidURI):
+        return "Invalid MongoDB URI."
+    elif isinstance(exception, pymongo.errors.NetworkTimeout):
+        return "Network timeout exceeded."
+    elif isinstance(exception, pymongo.errors.NotPrimaryError):
+        return "The server is not the primary or is in recovery."
+    elif isinstance(exception, pymongo.errors.OperationFailure):
+        return "Database operation failure."
+    elif isinstance(exception, pymongo.errors.ProtocolError):
+        return "Failure related to the communication protocol."
+    elif isinstance(exception, pymongo.errors.PyMongoError):
+        return "General PyMongo error."
+    elif isinstance(exception, pymongo.errors.ServerSelectionTimeoutError):
+        return "No MongoDB server available for the operation."
+    elif isinstance(exception, pymongo.errors.WTimeoutError):
+        return "Write operation timeout reached."
+    elif isinstance(exception, pymongo.errors.WaitQueueTimeoutError):
+        return "Timeout reached while waiting to checkout a connection from the pool."
+    elif isinstance(exception, pymongo.errors.WriteConcernError):
+        return "Write concern error."
+    elif isinstance(exception, pymongo.errors.WriteError):
+        return "Error during write operations."
+    else:
+        return "Unknown error."
 
 
 

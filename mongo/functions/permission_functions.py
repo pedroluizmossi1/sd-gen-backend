@@ -23,3 +23,17 @@ def get_permission_by_id(id):
         return permission
     else:
         return None
+    
+def get_all_permissions():
+    permissions = mongo_core.get_all_documents(mongo_core.collection_permissions)
+    if permissions:
+        return permissions
+    else:
+        return None
+    
+def create_permission(permission: permission_model.Permission):
+    permission = permission
+    if get_permission_by_name(permission.name):
+        return False
+    mongo_core.collection_permissions.insert_one(permission.dict())
+    return permission

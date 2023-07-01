@@ -15,18 +15,25 @@ def create_user(user: user_model.User):
     user.password = password_encrypt(user.password)
     user.plan = mongo_core.collection_plans.find_one({'name': 'free'})['_id']
     user.role = mongo_core.collection_roles.find_one({'name': 'user'})['_id']
-    mongo_core.collection_users.insert_one(user.dict())
-    return user
+    try:
+        mongo_core.collection_users.insert_one(user.dict())
+        return True
+    except pymongo.errors.WriteError as e:
+        return e.details.get('errmsg', False)
 
 def login_user(login, password):
-    user = mongo_core.collection_users.find_one({"login": login})
-    if user:
-        if password == password_decrypt(user["password"].decode()):
-            return True
+    try:
+        user = mongo_core.collection_users.find_one({"login": login.lower()})
+        if user:
+            if password == password_decrypt(user["password"].decode()):
+                return True
+            else:
+                return False
         else:
-            return False
-    else:
-        return False
+            return False    
+    except pymongo.errors.PyMongoError as e:
+        error_message = mongo_core.handle_mongo_exceptions(e)
+        return str(error_message)
     
 def get_user_by_login(login):
     user = mongo_core.collection_users.find_one({"login": login})
@@ -51,10 +58,11 @@ def get_user_by_id(id):
     else:
         return False
 
-def update_user(login, user: user_model.User.UserUpdate):
-    if get_user_by_login(login):
-        mongo_core.collection_users.update_one({"login": login}, {"$set": user.dict()})
-        return user
+def get_all_users():
+    users = mongo_core.collection_users.find()
+    if users:
+
+        return users
     else:
         return False
 
@@ -73,10 +81,36 @@ def update_user_role(login, role):
         return True
     else:
         return False
+
+def update_user(login, user):
+    if get_user_by_login(login):
+        try:
+            user.password = password_encrypt(user.password)
+        except AttributeError:
+            mongo_core.collection_users.update_one({"login": login}, {"$set": user.dict()})
+            return True
+    else:
+        return False 
     
+def delete_user(login):
+    user = mongo_core.collection_users.find_one({"login": login})
+    if user:
+        mongo_core.collection_users.delete_one({"login": login})
+        return True
+    else:
+        return False
+    
+def delete_user_by_id(id):
+    user = mongo_core.collection_users.find_one({"_id": ObjectId(id)})
+    if user:
+        mongo_core.collection_users.delete_one({"_id": ObjectId(id)})
+        return True
+    else:
+        return False
+
 # This code is used to get the permission of the user that is logged in. The permission is then used to check if the user is allowed to access the resource or not.
 
-def get_user_permission(login, permission):
+def get_user_permission(login, permission, method):
     user = mongo_core.collection_users.find_one({"_id": login})
     if user:
         user_role = mongo_core.collection_roles.find_one({"_id": ObjectId(user['role'])})
@@ -84,7 +118,7 @@ def get_user_permission(login, permission):
             for role_permission_id in user_role['permissions']:
                 permission_list = mongo_core.collection_permissions.find_one({"_id": role_permission_id})
                 if permission_list:
-                    if permission_list["resource"] == permission:
+                    if permission_list["resource"] == permission and permission_list["method"] == method:
                         return True
             return False
         return False

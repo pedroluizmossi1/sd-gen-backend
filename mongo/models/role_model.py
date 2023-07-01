@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
 
 class Role(BaseModel):
-    name: str
-    description: str = None
+    name: constr(min_length=3, max_length=20)
+    description: constr(min_length=3, max_length=50)
     permissions: list = []
 
     class Config:

@@ -4,30 +4,56 @@ class User(BaseModel):
     login: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")
     password: str
     email: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
-    first_name: str = None
-    last_name: str = None
+    first_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$") = None
+    last_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$") = None
     is_active: bool = False
     role = str = "null"
     plan = str = "null"
-
+    
     class Login(BaseModel):
-        login: str
-        password: str
+        login: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")
+        password: str = 'Password'
+
+        class Config:
+            schema_extra = {
+                "example": {
+                    "login": "user",
+                    "password": "password"
+                }
+            }
 
     class Logout(BaseModel):
         login: str = Field(None, alias='login')
 
     class UserInsert(BaseModel):
-        login: str
+        login: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")
         password: str
-        email: str
-        first_name: str = None
-        last_name: str = None
+        email: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
+        first_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$")
+        last_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$")
 
-    class UserUpdate(BaseModel):
-        email: str
-        first_name: str = None
-        last_name: str = None
+        class Config:
+            schema_extra = {
+                "example": {
+                    "login": "user",
+                    "password": "password",
+                    "email": "user@user.com",
+                    "first_name": "first_name",
+                    "last_name": "last_name"
+                }
+            }        
+    
+    class UpdateFirstLastName(BaseModel):
+        first_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$")
+        last_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$")
+
+        class Config:
+            schema_extra = {
+                "example": {
+                    "first_name": "first_name",
+                    "last_name": "last_name"
+                }
+            }
 
     class Config:
         schema_extra = {

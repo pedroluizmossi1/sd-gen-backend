@@ -3,6 +3,7 @@ import mongo.models.user_model as user_model
 import mongo.functions.user_functions as user_functions
 from .api_auth import authorize_token, check_permission
 from pydantic import validate_model, ValidationError
+from typing import Optional
 import json
 import sys
 
@@ -21,41 +22,40 @@ async def register_new_user(user: user_model.User.UserInsert):
     if user is True:
         return {"status": "User created"}
     else:
-        raise HTTPException(status_code=400, detail=user)
+        raise HTTPException(status_code=400, detail="User already exists")
 
-@router_user.get("/profile/by_login/")
-async def get_profile_by_login(login: str, authenticated: bool = Depends(check_permission)):
-    if authenticated["login"] == login and authenticated["permission"] == False:
-        user = user_model.User(**user_functions.get_user_by_login(login))
-        user.password = ""
-        return user
-    elif authenticated["permission"] == True:
-        user = user_model.User(**user_functions.get_user_by_login(login))
-        user.password = ""
-        return user
-    else:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    
-@router_user.get("/profile/by_id/")
-async def get_profile_by_id(id: str, authenticated: bool = Depends(check_permission)):
-    if authenticated["login"] == id and authenticated["permission"] == False:
-        user = user_model.User(**user_functions.get_user_by_id(id))
-        user.password = ""
-        return user
-    elif authenticated["permission"] == True:
-        user = user_model.User(**user_functions.get_user_by_id(id))
-        user.password = ""
-        return user
-    else:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    
-@router_user.put("/profile/by_token/")
-async def update_user_profile_by_token(user: user_model.User.UpdateFirstLastName, authenticated: bool = Depends(check_permission)):
-    if authenticated:
-        if user_functions.update_user(authenticated["login"], user):
-            return {"status": "Profile updated"}
+@router_user.get("/profile/")
+async def get_profile(login: Optional[str] = None, id: Optional[str] = None, authenticated: bool = Depends(check_permission)):
+    if authenticated["permission"] == False:
+        if login and authenticated["login"] == login:
+            user = user_model.User(**user_functions.get_user_by_login(login))
+            user.password = ""
+            return user
+        elif id and authenticated["id"] == id:
+            user = user_model.User(**user_functions.get_user_by_id(id))
+            user.password = ""
+            return user
+        elif login is None and id is None:
+            user = user_model.User(**user_functions.get_user_by_login(authenticated["login"]))
+            user.password = ""
+            return user
         else:
-            raise HTTPException(status_code=400, detail="User not found")
+            raise HTTPException(status_code=401, detail="Unauthorized")
+    elif authenticated["permission"] == True:
+        if login:
+            user = user_model.User(**user_functions.get_user_by_login(login))
+            user.password = ""
+            return user
+        elif id:
+            user = user_model.User(**user_functions.get_user_by_id(id))
+            user.password = ""
+            return user
+        elif login is None and id is None:
+            user = user_model.User(**user_functions.get_user_by_login(authenticated["login"]))
+            user.password = ""
+            return user
+        else:
+            raise HTTPException(status_code=400, detail="Missing parameter")        
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
@@ -71,24 +71,59 @@ async def get_all_users_profile(authenticated: bool = Depends(check_permission))
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-@router_user.delete("/profile/by_id/")
-async def delete_user_by_id(id: str, authenticated: bool = Depends(check_permission)):
+@router_user.delete("/profile/")
+async def delete_user_profile(id: Optional[str] = None, login: Optional[str] = None, authenticated: bool = Depends(check_permission)):
     if authenticated["permission"] == True:
-        if user_functions.delete_user_by_id(id):
-            return {"status": "User deleted"}
+        if id:
+            if user_functions.delete_user_by_id(id):
+                return {"status": "User deleted"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
+        elif login:
+            if user_functions.delete_user(login):
+                return {"status": "User deleted"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
         else:
-            raise HTTPException(status_code=400, detail="User not found")
+            raise HTTPException(status_code=400, detail="Missing parameter")
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
-@router_user.delete("/profile/by_login/")
-async def delete_user_by_login(login: str, authenticated: bool = Depends(check_permission)):
-    if authenticated["permission"] == True:
-        if user_functions.delete_user(login):
-            return {"status": "User deleted"}
+     
+@router_user.put("/profile/first_last_name/")
+async def update_user_profile_fl_name(id: Optional[str] = None, login: Optional[str] = None, user: user_model.User.UpdateFirstLastName = None, authenticated: bool = Depends(check_permission)):
+    if authenticated["permission"] == False:
+        if id and authenticated["id"] == id:
+            if user_functions.update_user_by_id(id, user):
+                return {"status": "User updated"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
+        elif login and authenticated["login"] == login:
+            if user_functions.update_user(login, user):
+                return {"status": "User updated"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
+        elif login is None and id is None:
+            if user_functions.update_user(authenticated["login"], user):
+                return {"status": "User updated"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
         else:
-            raise HTTPException(status_code=400, detail="User not found")
-    else:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    
-    
+            raise HTTPException(status_code=401, detail="Unauthorized")
+    elif authenticated["permission"] == True:
+        if id:
+            if user_functions.update_user_by_id(id, user):
+                return {"status": "User updated"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
+        elif login:
+            if user_functions.update_user(login, user):
+                return {"status": "User updated"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
+        elif login is None and id is None:
+            if user_functions.update_user(authenticated["login"], user):
+                return {"status": "User updated"}
+            else:
+                raise HTTPException(status_code=400, detail="User not found")
+        else:
+            raise HTTPException(status_code=400, detail="Missing parameter")

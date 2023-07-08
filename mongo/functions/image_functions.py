@@ -6,9 +6,13 @@ from crypto_dash.crypto_core import password_encrypt, password_decrypt
 from config_core import get_config
 from bson.objectid import ObjectId
 
+
 mongo_core.mongo_obj_str
 
 def create_image(image: image_model.Image):
-    image = image
-    mongo_core.collection_images.insert_one(image.dict())
-    return image
+    try:
+        image = image
+        mongo_core.collection_images.insert_one(image.dict())
+        return image
+    except pymongo.errors.PyMongoError as e:
+        mongo_core.handle_mongo_exceptions(e)

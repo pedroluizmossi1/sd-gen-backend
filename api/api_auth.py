@@ -28,9 +28,9 @@ async def check_permission(request: Request, login: str = Depends(authorize_toke
     if login:
         login = user_functions.get_user_by_login_ret_id(login)
         if user_functions.get_user_permission(login, path, method):
-            return {"login": login_name, "permission": True}
+            return {"login": login_name, "permission": True, "id": str(login)}
         else:
-            return {"login": login_name, "permission": False}
+            return {"login": login_name, "permission": False, "id": str(login)}
     else:
         return False
     
@@ -40,12 +40,10 @@ async def check_permission(request: Request, login: str = Depends(authorize_toke
 async def user_login(user_login: user_model.User.Login):
     login = user_functions.login_user(user_login.login, user_login.password)
     token = insert_json(json.dumps({"login":user_login.login}), 36000)
-    if login == True and token["bool"] != False:
-        return {"message": "Login success", "token": token["hash"]}
-    elif login == False:
-        raise HTTPException(status_code=401, detail="Login failed")
+    if login == True and token != False:
+        return {"message": "Login success", "token": token}
     else:
-        raise HTTPException(status_code=500, detail={"MongoDB":login, "Redis": token["message"]})
+        raise HTTPException(status_code=500, detail="Failed to login")
     
 
 
@@ -62,7 +60,7 @@ async def check_token(token: str):
     if get_json(token):
         return True
     else:
-        raise HTTPException(status_code=401, detail="Token invalid")
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
     
 
     

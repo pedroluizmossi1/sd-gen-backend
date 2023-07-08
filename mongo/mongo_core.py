@@ -9,6 +9,7 @@ import mongo.models.folder_model as folder_model
 from crypto_dash.crypto_core import password_encrypt, password_decrypt
 from config_core import get_config
 from bson.objectid import ObjectId
+from fastapi import HTTPException
 import re
 import ast
 import pydantic
@@ -25,7 +26,7 @@ mongo_db = get_config('MONGODB', 'mongodb_db')
 mongo_user = get_config('MONGODB', 'mongodb_user')
 mongo_password = get_config('MONGODB', 'mongodb_password')
 
-client = MongoClient("mongodb://" + mongo_user + ":" + mongo_password + "@" + mongo_host + ":" + mongo_port)
+client = MongoClient("mongodb://" + mongo_user + ":" + mongo_password + "@" + mongo_host + ":" + mongo_port + "/" + mongo_db)
 db = client['main']
 
 collection_users = db['users']
@@ -46,34 +47,47 @@ def check_collection(collection_name):
         return False
 
 def create_collection(collection_name):
-    if check_collection(collection_name):
-        collection = db[collection_name]
-        collection.insert_one({})
-        collection.delete_one({})
-        print('Creating collection: ' + collection_name)
-        return True
-    else:
-        return False
+    try:
+        if check_collection(collection_name):
+            collection = db[collection_name]
+            collection.insert_one({})
+            collection.delete_one({})
+            print('Creating collection: ' + collection_name)
+            return True
+        else:
+            return False
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
 
 def delete_collection(collection_name):
-    collection = db[collection_name]
-    collection.drop()
-    return True
+    try:
+        collection = db[collection_name]
+        collection.drop()
+        return True
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
 
 def create_index(collection, index, type):
-    collection = db[collection]
-    if type == 'unique':
-        collection.create_index(index, unique=True)
-        print('Creating unique index: ' + index)
-    elif type == 'index':
-        collection.create_index(index),
-        print('Creating index: ' + index)
+    try:
+        collection = db[collection]
+        if type == 'unique':
+            collection.create_index(index, unique=True)
+            print('Creating unique index: ' + index)
+        elif type == 'index':
+            collection.create_index(index),
+            print('Creating index: ' + index)
+        return True
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
 
          
 def count_documents(collection):
-    collection = db[collection]
-    count = collection.count_documents({})
-    return count        
+    try:
+        collection = db[collection]
+        count = collection.count_documents({})
+        return count     
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
 
 def check_value(value):
     # Expressão regular para verificar se é uma string hexadecimal de 24 caracteres
@@ -87,67 +101,96 @@ def check_value(value):
         return False
 
 def get_document_by_id(collection, id):
-    id = check_value(id)
-    if id:
-        document = collection.find_one({"_id": ObjectId(id)})
+    try:
+        id = check_value(id)
+        if id:
+            document = collection.find_one({"_id": ObjectId(id)})
+            if document:
+                return document
+            else:
+                return False
+        else:
+            return False
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
+    
+def get_document_by_field(collection, field, value):
+    try:
+        document = collection.find_one({field: value})
         if document:
             return document
         else:
             return False
-    else:
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
+    
+def is_valid_objectid(value):
+    try:
+        ObjectId(str(value))
+        return True
+    except:
         return False
+
+def get_documents_id_or_field(collection, field, value):
+    collection = db[collection]
+    try:
+        if is_valid_objectid(value):
+            documents = get_document_by_id(collection, value)
+        else:
+            documents = get_document_by_field(collection, field, value)
+        return documents
+    except pymongo.errors.PyMongoError as e:
+        handle_mongo_exceptions(e)
 
 def handle_mongo_exceptions(exception):
     if isinstance(exception, pymongo.errors.AutoReconnect):
-        return "Database connection error."
+        raise HTTPException(status_code=500, detail="Database connection error.")
     elif isinstance(exception, pymongo.errors.BulkWriteError):
-        return "Error executing bulk operations."
+        raise HTTPException(status_code=500, detail="Error executing bulk operations.")
     elif isinstance(exception, pymongo.errors.CollectionInvalid):
-        return "The collection is invalid."
+        raise HTTPException(status_code=500, detail="The collection is invalid.")
     elif isinstance(exception, pymongo.errors.ConfigurationError):
-        return "Configuration error."
+        raise HTTPException(status_code=500, detail="Configuration error.")
     elif isinstance(exception, pymongo.errors.ConnectionFailure):
-        return "Database connection failure."
+        raise HTTPException(status_code=500, detail="Database connection failure.")
     elif isinstance(exception, pymongo.errors.CursorNotFound):
-        return "Query cursor not found."
+        raise HTTPException(status_code=500, detail="Query cursor not found.")
     elif isinstance(exception, pymongo.errors.DocumentTooLarge):
-        return "The document is too large to be stored on the server."
+        raise HTTPException(status_code=500, detail="The document is too large to be stored on the server.")
     elif isinstance(exception, pymongo.errors.DuplicateKeyError):
-        return "Duplicate key found during insert or update."
-    elif isinstance(exception, pymongo.errors.EncryptedCollectionError):
-        return "Error creating an encrypted collection."
+        raise HTTPException(status_code=500, detail="Duplicate key found during insert or update.")
     elif isinstance(exception, pymongo.errors.EncryptionError):
-        return "Encryption or decryption error."
+        raise HTTPException(status_code=500, detail="Encryption or decryption error.")
     elif isinstance(exception, pymongo.errors.ExecutionTimeout):
-        return "Operation timeout reached."
+        raise HTTPException(status_code=500, detail="Operation timeout reached.")
     elif isinstance(exception, pymongo.errors.InvalidName):
-        return "Invalid name used."
+        raise HTTPException(status_code=500, detail="Invalid name used.")
     elif isinstance(exception, pymongo.errors.InvalidOperation):
-        return "Invalid operation."
+        raise HTTPException(status_code=500, detail="Invalid operation.")
     elif isinstance(exception, pymongo.errors.InvalidURI):
-        return "Invalid MongoDB URI."
+        raise HTTPException(status_code=500, detail="Invalid MongoDB URI.")
     elif isinstance(exception, pymongo.errors.NetworkTimeout):
-        return "Network timeout exceeded."
+        raise HTTPException(status_code=500, detail="Network timeout exceeded.")
     elif isinstance(exception, pymongo.errors.NotPrimaryError):
-        return "The server is not the primary or is in recovery."
+        raise HTTPException(status_code=500, detail="The server is not the primary or is in recovery.")
     elif isinstance(exception, pymongo.errors.OperationFailure):
-        return "Database operation failure."
+        raise HTTPException(status_code=500, detail=exception.details)
     elif isinstance(exception, pymongo.errors.ProtocolError):
-        return "Failure related to the communication protocol."
+        raise HTTPException(status_code=500, detail="Failure related to the communication protocol.")
     elif isinstance(exception, pymongo.errors.PyMongoError):
-        return "General PyMongo error."
+        raise HTTPException(status_code=500, detail="General PyMongo error.")
     elif isinstance(exception, pymongo.errors.ServerSelectionTimeoutError):
-        return "No MongoDB server available for the operation."
+        raise HTTPException(status_code=500, detail="No MongoDB server available for the operation.")
     elif isinstance(exception, pymongo.errors.WTimeoutError):
-        return "Write operation timeout reached."
+        raise HTTPException(status_code=500, detail="Write operation timeout reached.")
     elif isinstance(exception, pymongo.errors.WaitQueueTimeoutError):
-        return "Timeout reached while waiting to checkout a connection from the pool."
+        raise HTTPException(status_code=500, detail="Timeout reached while waiting to checkout a connection from the pool.")
     elif isinstance(exception, pymongo.errors.WriteConcernError):
-        return "Write concern error."
+        raise HTTPException(status_code=500, detail="Write concern error.")
     elif isinstance(exception, pymongo.errors.WriteError):
-        return "Error during write operations."
+        raise HTTPException(status_code=500, detail="Error during write operations.")
     else:
-        return "Unknown error."
+        raise HTTPException(status_code=500, detail="Unknown error.")
 
 
 

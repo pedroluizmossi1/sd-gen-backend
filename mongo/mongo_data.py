@@ -1,4 +1,4 @@
-from .mongo_core import create_collection, collection_list, create_index, count_documents, db
+from .mongo_core import create_collection, collection_list, create_index, count_documents, db, collection_folders
 import mongo.functions.role_functions as role_functions
 import mongo.functions.plan_functions as plan_functions
 import mongo.functions.permission_functions as permission_functions
@@ -22,9 +22,9 @@ def mongo_data_main():
     
 
 admin_role = role_model.Role(name='admin', description='Administrator role', permissions=[])
-admin_plan = plan_model.Plan(name='admin', description='Administrator plan', price=0, resources={'admin': 'Administrator plan'})
+admin_plan = plan_model.Plan(name='admin', description='Administrator plan', price=0, resources=[{'admin': 'Administrator plan'}])
 user_role = role_model.Role(name='user', description='User role', permissions=[])
-user_plan = plan_model.Plan(name='free', description='User plan', price=0, resources={'user': 'User free plan'})
+user_plan = plan_model.Plan(name='free', description='User plan', price=0, resources=[{'user': 'User plan'}])
 
 def mongo_start_data():
     collection_roles = db['roles']
@@ -47,17 +47,32 @@ def mongo_start_data():
         user_functions.update_user_role('user', 'user'), user_functions.update_user_plan('user', 'free')
 
         for index, row in permission_list.iterrows():
-            role_functions.update_role_permission('admin', row['name'])
+            role_functions.update_role_permission_md('admin', row['name'])
 
+
+    #Direct Index
+    collection_folders.create_index([('owner', 1), ('name', 1)], unique=True)
     return True
 
 
 
 permission_list = pd.DataFrame(columns=['name', 'resource', 'description'])
-permission_list = permission_list.append({'name': 'insert_role', 'resource': '/user/profile/by_login/', 'method': "GET" , 'description': 'Get User profile by login'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'get_profile', 'resource': '/user/profile/', 'method': "GET" , 'description': 'Get User profile by login'}, ignore_index=True)
 permission_list = permission_list.append({'name': 'get_all_users_profile', 'resource': '/user/profile/all/', 'method': "GET" , 'description': 'Get all users profiles'}, ignore_index=True)
-permission_list = permission_list.append({'name': 'get_profile_by_login', 'resource': '/user/profile/by_login/', 'method': "GET" , 'description': 'Get user profile'}, ignore_index=True)
-permission_list = permission_list.append({'name': 'update_user_profile_by_token', 'resource': '/user/profile/by_login/', 'method': "PUT" , 'description': 'Update user profile'}, ignore_index=True)
-permission_list = permission_list.append({'name': 'delete_user_by_login', 'resource': '/user/profile/by_login/', 'method': "DELETE" , 'description': 'Delete user profile'}, ignore_index=True)
-permission_list = permission_list.append({'name': 'get_profile_by_id', 'resource': '/user/profile/by_id/', 'method': "GET" , 'description': 'Get user profile'}, ignore_index=True)
-permission_list = permission_list.append({'name': 'delete_user_by_id', 'resource': '/user/profile/by_id/', 'method': "DELETE" , 'description': 'Delete user profile'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'update_user_profile_fl_name', 'resource': '/profile/first_last_name/', 'method': "PUT" , 'description': 'Update user profile'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'delete_user_profile', 'resource': '/user/profile/', 'method': "DELETE" , 'description': 'Delete user profile'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'get_role', 'resource': '/role/', 'method': "GET" , 'description': 'Get role'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'insert_new_role', 'resource': '/role/', 'method': "POST" , 'description': 'Insert new role'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'add_role_permission', 'resource': '/role/add/permission/', 'method': "PUT" , 'description': 'Update role'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'delete_role_permission', 'resource': '/role/delete/permission/', 'method': "PUT" , 'description': 'Delete role'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'delete_role', 'resource': '/role/', 'method': "DELETE" , 'description': 'Delete role'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'get_folder', 'resource': '/folder/', 'method': "GET" , 'description': 'Get folder'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'insert_new_folder', 'resource': '/folder/', 'method': "POST" , 'description': 'Insert new folder'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'delete_folder', 'resource': '/folder/', 'method': "DELETE" , 'description': 'Delete folder'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'insert_new_plan', 'resource': '/plan/', 'method': "POST" , 'description': 'Insert new plan'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'get_plan', 'resource': '/plan/', 'method': "GET" , 'description': 'Get plan'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'delete_plan', 'resource': '/plan/', 'method': "DELETE" , 'description': 'Delete plan'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'update_plan', 'resource': '/plan/', 'method': "PUT" , 'description': 'Update plan'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'get_all_plans', 'resource': '/plan/all/', 'method': "GET" , 'description': 'Get all plans'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'add_resource_to_plan', 'resource': '/plan/add/resource/', 'method': "PUT" , 'description': 'Add resource to plan'}, ignore_index=True)
+permission_list = permission_list.append({'name': 'remove_resource_from_plan', 'resource': '/plan/update/resource/', 'method': "PUT" , 'description': 'Remove resource from plan'}, ignore_index=True)

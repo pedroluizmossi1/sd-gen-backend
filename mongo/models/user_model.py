@@ -7,8 +7,8 @@ class User(BaseModel):
     first_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$") = None
     last_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$") = None
     is_active: bool = False
-    role = str = "null"
-    plan = str = "null"
+    role: object = None
+    plan: object = None
     
     class Login(BaseModel):
         login: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")

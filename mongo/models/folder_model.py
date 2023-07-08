@@ -1,10 +1,9 @@
 from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
 
 class Folder(BaseModel):
-    owner: str
-    Users: list = []
-    name: str
-    description: str = None
+    owner: object = None
+    name: constr(min_length=3, max_length=50)
+    description: constr(min_length=3, max_length=100) = None
     is_public: bool = False
     is_active: bool = True
     images: list = []
@@ -13,7 +12,6 @@ class Folder(BaseModel):
         schema_extra = {
             "example": {
                 "owner": "user",
-                "Users": ["user1", "user2"],
                 "name": "collection",
                 "description": "description",
                 "is_public": True,
@@ -23,7 +21,40 @@ class Folder(BaseModel):
             }
         }
 
+    class Insert(BaseModel):
+        name: constr(min_length=3, max_length=50)
+        description: constr(min_length=3, max_length=100) = None
+        is_public: bool = False
+        tags: list = []
+        class Config:
+            schema_extra = {
+                "example": {
+                    "name": "collection",
+                    "description": "description",
+                    "is_public": True,
+                    "tags": ["tag1", "tag2"]
+                }
+            }
+
+    class Update(BaseModel):
+        description: constr(min_length=3, max_length=100) = None
+        is_public: bool = False
+        is_active: bool = True
+        tags: list = []
+        class Config:
+            schema_extra = {
+                "example": {
+                    "name": "collection",
+                    "description": "description",
+                    "is_public": True,
+                    "is_active": True,
+                    "tags": ["tag1", "tag2"]
+                }
+            }
+
+
     class Index:
         indexes = {
 
-        }
+    }
+            

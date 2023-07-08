@@ -5,6 +5,16 @@ class Role(BaseModel):
     description: constr(min_length=3, max_length=50)
     permissions: list = []
 
+    class UpdatePermission(BaseModel):
+        permissions: list = []
+
+        class Config:
+            schema_extra = {
+                "example": {
+                    "permissions": ["permission1", "permission2"]
+                }
+            }
+
     class Config:
         schema_extra = {
             "example": {

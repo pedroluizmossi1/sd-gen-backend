@@ -1,4 +1,4 @@
-from .mongo_core import create_collection, collection_list, create_index, count_documents, db, collection_folders
+from .mongo_core import create_collection, collection_list, create_index, count_documents, db, collection_folders, client
 import mongo.functions.role_functions as role_functions
 import mongo.functions.plan_functions as plan_functions
 import mongo.functions.permission_functions as permission_functions
@@ -13,6 +13,7 @@ from importlib import import_module
 import pandas as pd
 
 def mongo_data_main():
+        client.drop_database('main')
         for collection in collection_list.keys():
             create_collection(collection)
             for index in collection_list[collection].Index.indexes:
@@ -24,7 +25,16 @@ def mongo_data_main():
 admin_role = role_model.Role(name='admin', description='Administrator role', permissions=[])
 admin_plan = plan_model.Plan(name='admin', description='Administrator plan', price=0, resources=[{'admin': 'Administrator plan'}])
 user_role = role_model.Role(name='user', description='User role', permissions=[])
-user_plan = plan_model.Plan(name='free', description='User plan', price=0, resources=[{'user': 'User plan'}])
+user_plan = plan_model.Plan(name='free', description='User plan', price=0, resources=[{
+                                                                                        'SDXL_X': '1024',
+                                                                                        'SDXL_Y': '1024',
+                                                                                        'BASE_X': '1024',
+                                                                                        'BASE_Y': '1024',
+                                                                                        'HIGRESFIX': '2'
+                                                                                    },
+                                                                                    {
+                                                                                        'FOLDERS': '10'
+                                                                                         }])
 
 def mongo_start_data():
     collection_roles = db['roles']
@@ -40,8 +50,8 @@ def mongo_start_data():
         plan_id = collection_plans.insert_one(admin_plan.dict()).inserted_id
         plan_id = collection_plans.insert_one(user_plan.dict()).inserted_id
     if count_documents('users') == 0:
-        admin = user_model.User(login='admin', password='admin', email='admin@admin.com', first_name='admin', last_name='admin', is_active=True)
-        user = user_model.User(login='user', password='user', email='user@user.com', first_name='user', last_name='user', is_active=True)
+        admin = user_model.User(login='admin', password='admin', email='admin@admin.com', first_name='admin', last_name='admin', is_active=True, folders=[])
+        user = user_model.User(login='user', password='user', email='user@user.com', first_name='user', last_name='user', is_active=True, folders=[])
         user_functions.create_user(admin), user_functions.create_user(user)
         user_functions.update_user_role('admin', 'admin'), user_functions.update_user_plan('admin', 'admin')
         user_functions.update_user_role('user', 'user'), user_functions.update_user_plan('user', 'free')
@@ -76,3 +86,5 @@ permission_list = permission_list.append({'name': 'update_plan', 'resource': '/p
 permission_list = permission_list.append({'name': 'get_all_plans', 'resource': '/plan/all/', 'method': "GET" , 'description': 'Get all plans'}, ignore_index=True)
 permission_list = permission_list.append({'name': 'add_resource_to_plan', 'resource': '/plan/add/resource/', 'method': "PUT" , 'description': 'Add resource to plan'}, ignore_index=True)
 permission_list = permission_list.append({'name': 'remove_resource_from_plan', 'resource': '/plan/update/resource/', 'method': "PUT" , 'description': 'Remove resource from plan'}, ignore_index=True)
+
+

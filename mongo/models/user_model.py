@@ -9,6 +9,7 @@ class User(BaseModel):
     is_active: bool = False
     role: object = None
     plan: object = None
+    folders: list = []
     
     class Login(BaseModel):
         login: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")

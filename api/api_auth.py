@@ -34,6 +34,16 @@ async def check_permission(request: Request, login: str = Depends(authorize_toke
     else:
         return False
     
+async def check_role(request: Request, login: str = Depends(authorize_token)):
+    login_name = login
+    if login:
+        login = user_functions.get_user_by_login_ret_id(login)
+        if user_functions.get_user_permission(login, path, method):
+            return {"login": login_name, "permission": True, "id": str(login)}
+        else:
+            return {"login": login_name, "permission": False, "id": str(login)}
+    else:
+        return False
         
 
 @router_auth.post("/login/")

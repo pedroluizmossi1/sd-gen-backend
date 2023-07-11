@@ -14,10 +14,11 @@ class Folder(BaseModel):
                 "owner": "user",
                 "name": "collection",
                 "description": "description",
-                "is_public": True,
+                "is_public": False,
                 "is_active": True,
                 "images": ["image1", "image2"],
-                "tags": ["tag1", "tag2"]
+                "tags": ["tag1", "tag2"],
+                "folders": ["folder1", "folder2"]
             }
         }
 
@@ -31,7 +32,7 @@ class Folder(BaseModel):
                 "example": {
                     "name": "collection",
                     "description": "description",
-                    "is_public": True,
+                    "is_public": False,
                     "tags": ["tag1", "tag2"]
                 }
             }
@@ -46,7 +47,7 @@ class Folder(BaseModel):
                 "example": {
                     "name": "collection",
                     "description": "description",
-                    "is_public": True,
+                    "is_public": False,
                     "is_active": True,
                     "tags": ["tag1", "tag2"]
                 }

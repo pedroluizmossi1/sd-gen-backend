@@ -12,7 +12,7 @@ mongo_core.mongo_obj_str
 def create_folder(folder: folder_model.Folder):
     try:
         folder = folder
-        mongo_core.collection_folders.insert_one(folder.dict())
+        folder = mongo_core.collection_folders.insert_one(folder.dict())
         return folder
     except pymongo.errors.PyMongoError as e:
         mongo_core.handle_mongo_exceptions(e)

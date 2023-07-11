@@ -56,7 +56,7 @@ async def delete_role_permission(id_or_name: Optional[str] = None, permission: r
                 if role_functions.delete_role_permission(id_or_name, permission):
                     return {"status": "Role updated"}
                 else:
-                    raise HTTPException(status_code=404, detail="Role not found or permission already exists")
+                    raise HTTPException(status_code=404, detail="Role not found or permission already deleted")
             else:
                 raise HTTPException(status_code=400, detail="Missing parameter")
     else:

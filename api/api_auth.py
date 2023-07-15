@@ -3,7 +3,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import json
 import mongo.functions.user_functions as user_functions
+import mongo.functions.plan_functions as plan_functions
 import mongo.models.user_model as user_model
+import mongo.models.plan_model as plan_model
 from redis_core import insert_json, get_json, delete_json, get_all_string_values, delete_all_string_values
 
 auth_scheme = HTTPBearer()
@@ -24,26 +26,29 @@ async def authorize_token(credentials: HTTPAuthorizationCredentials = Depends(au
 async def check_permission(request: Request, login: str = Depends(authorize_token)):
     path = request.url.path
     method = request.method
-    login_name = login
     if login:
         login = user_functions.get_user_by_login_ret_id(login)
-        if user_functions.get_user_permission(login, path, method):
-            return {"login": login_name, "permission": True, "id": str(login)}
+        login_id = login.get("_id")
+        if user_functions.get_user_permission(login_id, path, method):
+            return {"login": login.get("login"), "permission": True, "id": str(login_id), "plan": str(login.get("plan")), "token": request.headers.get("Authorization")}
         else:
-            return {"login": login_name, "permission": False, "id": str(login)}
+            return {"login": login.get("login"), "permission": False, "id": str(login_id), "plan": str(login.get("plan")), "token": request.headers.get("Authorization")}
     else:
         return False
     
-async def check_role(request: Request, login: str = Depends(authorize_token)):
-    login_name = login
-    if login:
-        login = user_functions.get_user_by_login_ret_id(login)
-        if user_functions.get_user_permission(login, path, method):
-            return {"login": login_name, "permission": True, "id": str(login)}
-        else:
-            return {"login": login_name, "permission": False, "id": str(login)}
-    else:
+def check_plan(resources: list, plan: str):
+    try:
+        resources_dict = {}
+        plan_dict = {}
+        plan = plan_functions.get_plan(plan)
+        for plan in plan["resources"]:
+            plan_dict.update(plan)
+            for resource in resources:
+                resources_dict[resource] = plan_dict.get(resource)
+        return resources_dict          
+    except:
         return False
+
         
 
 @router_auth.post("/login/")

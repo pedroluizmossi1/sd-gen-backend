@@ -1,0 +1,33 @@
+"filename", "language", "Ini", "Python", "Markdown", "JSON", "comment", "blank", "total"
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\details.md", "Markdown", 0, 0, 35, 0, 0, 6, 41
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\diff-details.md", "Markdown", 0, 0, 9, 0, 0, 6, 15
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\diff.md", "Markdown", 0, 0, 12, 0, 0, 7, 19
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\results.json", "JSON", 0, 0, 0, 1, 0, 0, 1
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\results.md", "Markdown", 0, 0, 22, 0, 0, 7, 29
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_auth.py", "Python", 0, 12, 0, 0, 0, 1, 13
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_core.py", "Python", 0, 6, 0, 0, 0, 0, 6
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_folders.py", "Python", 0, 54, 0, 0, 0, 2, 56
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_plans.py", "Python", 0, 92, 0, 0, 0, 10, 102
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_roles.py", "Python", 0, 40, 0, 0, 0, 3, 43
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users.py", "Python", 0, 39, 0, 0, 0, -4, 35
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_folder.py", "Python", 0, 68, 0, 0, 0, 9, 77
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_images.py", "Python", 0, 58, 0, 0, 1, 5, 64
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\config copy.ini", "Ini", 17, 0, 0, 0, 0, 4, 21
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\config.ini", "Ini", 8, 0, 0, 0, 0, 1, 9
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\folder_functions.py", "Python", 0, 103, 0, 0, 0, 11, 114
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\image_functions.py", "Python", 0, 3, 0, 0, 0, 1, 4
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\plan_functions.py", "Python", 0, 61, 0, 0, 0, 8, 69
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\role_functions.py", "Python", 0, 48, 0, 0, 0, 3, 51
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_folder_functions.py", "Python", 0, 73, 0, 0, 0, 7, 80
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_functions.py", "Python", 0, 55, 0, 0, 0, 4, 59
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_image_functions.py", "Python", 0, 26, 0, 0, 0, 4, 30
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\folder_model.py", "Python", 0, 28, 0, 0, 0, 4, 32
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\image_model.py", "Python", 0, 45, 0, 0, 0, 4, 49
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\plan_model.py", "Python", 0, 18, 0, 0, 0, 3, 21
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\role_model.py", "Python", 0, 8, 0, 0, 0, 2, 10
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\user_model.py", "Python", 0, 1, 0, 0, 0, 0, 1
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\mongo_core.py", "Python", 0, 45, 0, 0, 0, 3, 48
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\mongo_data.py", "Python", 0, 37, 0, 0, 1, 3, 41
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\redis_core.py", "Python", 0, 13, 0, 0, 0, -2, 11
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\sd_automatic\automatic_core.py", "Python", 0, 12, 0, 0, 0, 3, 15
+"Total", "-", 25, 945, 78, 1, 2, 115, 1166

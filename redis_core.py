@@ -7,8 +7,10 @@ from config_core import get_config
 host = get_config('REDIS', 'redis_host')
 port = get_config('REDIS', 'redis_port')
 db = get_config('REDIS', 'redis_db')
+user = get_config('REDIS', 'redis_user')
+password = get_config('REDIS', 'redis_password')
 
-r = redis.Redis(host=host, port=port, decode_responses=True, db=db)
+r = redis.Redis(host=host, port=port, decode_responses=True, db=db, username=user, password=password)
 
 def insert_json(json, time):
     hash = generate_hash()

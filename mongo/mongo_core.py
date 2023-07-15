@@ -25,8 +25,13 @@ mongo_port = get_config('MONGODB', 'mongodb_port')
 mongo_db = get_config('MONGODB', 'mongodb_db')
 mongo_user = get_config('MONGODB', 'mongodb_user')
 mongo_password = get_config('MONGODB', 'mongodb_password')
+mongo_string = get_config('MONGODB', 'mongodb_string')
+mongo_string_active = ast.literal_eval(get_config('MONGODB', 'mongodb_string_active'))
 
-client = MongoClient("mongodb://" + mongo_user + ":" + mongo_password + "@" + mongo_host + ":" + mongo_port + "/" + mongo_db)
+if mongo_string_active == False:
+    client = MongoClient("mongodb://" + mongo_user + ":" + mongo_password + "@" + mongo_host + ":" + mongo_port + "/" + mongo_db)
+else:
+    client = MongoClient(mongo_string)
 db = client['main']
 
 collection_users = db['users']

@@ -1,0 +1,75 @@
+Date : 2023-07-14 21:34:39
+Directory : c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend
+Total : 38 files,  2038 codes, 16 comments, 295 blanks, all 2349 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Python   |         31 |      1,917 |         16 |        260 |      2,193 |
+| Markdown |          4 |         78 |          0 |         26 |        104 |
+| Ini      |          2 |         42 |          0 |          9 |         51 |
+| JSON     |          1 |          1 |          0 |          0 |          1 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                   |         38 |      2,038 |         16 |        295 |      2,349 |
+| . (Files)                                                                                                           |          5 |        202 |          8 |         33 |        243 |
+| .VSCodeCounter                                                                                                      |          5 |         79 |          0 |         26 |        105 |
+| .VSCodeCounter\2023-07-01_17-49-59                                                                                  |          5 |         79 |          0 |         26 |        105 |
+| api                                                                                                                 |          8 |        577 |          3 |         70 |        650 |
+| crypto_dash                                                                                                         |          2 |         28 |          0 |          9 |         37 |
+| mongo                                                                                                               |         17 |      1,140 |          5 |        154 |      1,299 |
+| mongo (Files)                                                                                                       |          3 |        265 |          4 |         43 |        312 |
+| mongo\functions                                                                                                     |          8 |        606 |          1 |         73 |        680 |
+| mongo\models                                                                                                        |          6 |        269 |          0 |         38 |        307 |
+| sd_automatic                                                                                                        |          1 |         12 |          0 |          3 |         15 |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                            | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\details.md      | Markdown |         35 |          0 |          6 |         41 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\diff-details.md | Markdown |          9 |          0 |          6 |         15 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\diff.md         | Markdown |         12 |          0 |          7 |         19 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\results.json    | JSON     |          1 |          0 |          0 |          1 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-01_17-49-59\results.md      | Markdown |         22 |          0 |          7 |         29 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_auth.py                                    | Python   |         66 |          0 |         18 |         84 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_core.py                                    | Python   |         36 |          2 |          7 |         45 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_folders.py                                 | Python   |         65 |          0 |          7 |         72 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_plans.py                                   | Python   |         92 |          0 |         10 |        102 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_roles.py                                   | Python   |         70 |          0 |          7 |         77 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users.py                                   | Python   |        122 |          0 |          7 |        129 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_folder.py                            | Python   |         68 |          0 |          9 |         77 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_images.py                            | Python   |         58 |          1 |          5 |         64 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\config copy.ini                                    | Ini      |         17 |          0 |          4 |         21 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\config.ini                                         | Ini      |         25 |          0 |          5 |         30 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\config_core.py                                     | Python   |         23 |          8 |         12 |         43 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\crypto_dash\__init__.py                            | Python   |          0 |          0 |          1 |          1 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\crypto_dash\crypto_core.py                         | Python   |         28 |          0 |          8 |         36 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\main.py                                            | Python   |         12 |          0 |          2 |         14 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\__init__.py                                  | Python   |          0 |          0 |          1 |          1 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\folder_functions.py                | Python   |        127 |          0 |         15 |        142 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\image_functions.py                 | Python   |         15 |          0 |          3 |         18 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\permission_functions.py            | Python   |         34 |          0 |          5 |         39 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\plan_functions.py                  | Python   |         87 |          0 |         12 |         99 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\role_functions.py                  | Python   |         80 |          0 |          8 |         88 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_folder_functions.py           | Python   |         73 |          0 |          7 |         80 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_functions.py                  | Python   |        164 |          1 |         19 |        184 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_image_functions.py            | Python   |         26 |          0 |          4 |         30 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\folder_model.py                       | Python   |         54 |          0 |          7 |         61 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\image_model.py                        | Python   |         69 |          0 |          7 |         76 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\permission_model.py                   | Python   |         19 |          0 |          3 |         22 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\plan_model.py                         | Python   |         37 |          0 |          6 |         43 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\role_model.py                         | Python   |         25 |          0 |          5 |         30 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\models\user_model.py                         | Python   |         65 |          0 |         10 |         75 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\mongo_core.py                                | Python   |        175 |          3 |         29 |        207 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\mongo_data.py                                | Python   |         90 |          1 |         13 |        104 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\redis_core.py                                      | Python   |        125 |          0 |         10 |        135 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\sd_automatic\automatic_core.py                     | Python   |         12 |          0 |          3 |         15 |
+| Total                                                                                                               |          |      2,038 |         16 |        295 |      2,349 |
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

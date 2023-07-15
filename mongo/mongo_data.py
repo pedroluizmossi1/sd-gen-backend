@@ -19,22 +19,26 @@ def mongo_data_main():
             for index in collection_list[collection].Index.indexes:
                 for type in index:
                     create_index(collection, type[0], type[1])
-        
+
+plan_resources = [{
+                'SDXL_X': 1024,
+                'SDXL_Y': 1024,
+                'BASE_X': 1024,
+                'BASE_Y': 1024,
+                'HIGRESFIX': 2,
+                'STEPS': 30,
+                'SAMPLER': ["Euler", "Euler a", "UniPC"],
+                'BATCH_SIZE': 2
+                },
+                {
+                'FOLDERS': 10
+                }]  
     
 
 admin_role = role_model.Role(name='admin', description='Administrator role', permissions=[])
-admin_plan = plan_model.Plan(name='admin', description='Administrator plan', price=0, resources=[{'admin': 'Administrator plan'}])
+admin_plan = plan_model.Plan(name='admin', description='Administrator plan', price=0, resources= plan_resources)
 user_role = role_model.Role(name='user', description='User role', permissions=[])
-user_plan = plan_model.Plan(name='free', description='User plan', price=0, resources=[{
-                                                                                        'SDXL_X': '1024',
-                                                                                        'SDXL_Y': '1024',
-                                                                                        'BASE_X': '1024',
-                                                                                        'BASE_Y': '1024',
-                                                                                        'HIGRESFIX': '2'
-                                                                                    },
-                                                                                    {
-                                                                                        'FOLDERS': '10'
-                                                                                         }])
+user_plan = plan_model.Plan(name='free', description='User plan', price=0, resources= plan_resources)
 
 def mongo_start_data():
     collection_roles = db['roles']
@@ -88,3 +92,13 @@ permission_list = permission_list.append({'name': 'add_resource_to_plan', 'resou
 permission_list = permission_list.append({'name': 'remove_resource_from_plan', 'resource': '/plan/update/resource/', 'method': "PUT" , 'description': 'Remove resource from plan'}, ignore_index=True)
 
 
+plan_resources = [{
+                'SDXL_X': '1024',
+                'SDXL_Y': '1024',
+                'BASE_X': '1024',
+                'BASE_Y': '1024',
+                'HIGRESFIX': '2'
+                },
+                {
+                'FOLDERS': '10'
+                }]

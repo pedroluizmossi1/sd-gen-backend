@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import pymongo
 import mongo.models.user_model as user_model
 import mongo.mongo_core as mongo_core
+import mongo.models.folder_model as folder_model
 from crypto_dash.crypto_core import password_encrypt, password_decrypt
 from config_core import get_config
 from bson.objectid import ObjectId
@@ -16,7 +17,9 @@ def create_user(user: user_model.User):
     user.plan = mongo_core.collection_plans.find_one({'name': 'free'})['_id']
     user.role = mongo_core.collection_roles.find_one({'name': 'user'})['_id']
     try:
-        mongo_core.collection_users.insert_one(user.dict())
+        user = mongo_core.collection_users.insert_one(user.dict())
+        folder = folder_model.Folder(name="root", owner=user.inserted_id, description="root folder", is_public=False, is_active=True)
+        mongo_core.collection_folders.insert_one(folder.dict())
         return True
     except pymongo.errors.PyMongoError as e:
         mongo_core.handle_mongo_exceptions(e)
@@ -46,7 +49,7 @@ def get_user_by_login(login):
 
 def get_user_by_login_ret_id(login):
     try:
-        user = mongo_core.collection_users.find_one({"login": login})['_id']
+        user = mongo_core.collection_users.find_one({"login": login})
         if user:
             return user
         else:
@@ -145,6 +148,7 @@ def delete_user_by_id(id):
     except pymongo.errors.PyMongoError as e:    
         mongo_core.handle_mongo_exceptions(e)
 
+
 # This code is used to get the permission of the user that is logged in. The permission is then used to check if the user is allowed to access the resource or not.
 
 def get_user_permission(login, permission, method):
@@ -161,5 +165,19 @@ def get_user_permission(login, permission, method):
                 return False
             return False
         return False
+    except pymongo.errors.PyMongoError as e:    
+        mongo_core.handle_mongo_exceptions(e)
+
+def get_user_plan(login):
+    try:
+        user = mongo_core.collection_users.find_one({"login": login})
+        if user:
+            user_plan = mongo_core.collection_plans.find_one({"_id": ObjectId(user['plan'])})
+            if user_plan:
+                return user_plan
+            else:
+                return False
+        else:
+            return False
     except pymongo.errors.PyMongoError as e:    
         mongo_core.handle_mongo_exceptions(e)

@@ -65,6 +65,19 @@ def get_user_folder(owner, folder):
     except pymongo.errors.PyMongoError as e:
         mongo_core.handle_mongo_exceptions(e)
 
+def get_user_folders(owner):
+    try:
+        owner = ObjectId(owner)
+        user = mongo_core.collection_users.find_one({"_id": ObjectId(owner)})
+        folders = user["folders"]
+        folders_list = []
+        for folder in folders:
+            folder = mongo_core.collection_folders.find_one({"_id": ObjectId(folder)})
+            folders_list.append(folder)
+        return folders_list
+    except pymongo.errors.PyMongoError as e:
+        mongo_core.handle_mongo_exceptions(e)
+
 def delete_user_folder(owner, folder):
     try:
         folder = get_user_folder(owner, folder)

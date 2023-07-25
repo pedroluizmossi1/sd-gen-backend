@@ -19,7 +19,8 @@ def create_user(user: user_model.User):
     try:
         user = mongo_core.collection_users.insert_one(user.dict())
         folder = folder_model.Folder(name="root", owner=user.inserted_id, description="root folder", is_public=False, is_active=True)
-        mongo_core.collection_folders.insert_one(folder.dict())
+        folder = mongo_core.collection_folders.insert_one(folder.dict())
+        mongo_core.collection_users.update_one({"_id": user.inserted_id}, {"$addToSet": {"folders": folder.inserted_id}})
         return True
     except pymongo.errors.PyMongoError as e:
         mongo_core.handle_mongo_exceptions(e)
@@ -66,6 +67,12 @@ def get_user_by_id(id):
             return False
     except pymongo.errors.PyMongoError as e:    
         mongo_core.handle_mongo_exceptions(e)
+
+def get_user(id_or_login):
+    if mongo_core.is_valid_objectid(id_or_login):
+        return get_user_by_id(id_or_login)
+    else:
+        return get_user_by_login(id_or_login)
 
 def get_all_users():
     try:

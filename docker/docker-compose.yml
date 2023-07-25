@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+
+  mongo1:
+    build:
+      dockerfile: mongo1.Dockerfile
+    restart: always
+    container_name: Mongo1_Container
+    hostname: mongo1
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: python
+      MONGO_INITDB_ROOT_PASSWORD: python
+    volumes:
+      - mongo1_data:/data/config
+
+  redis:
+    image: redis/redis-stack-server
+    restart: always
+    container_name: Redis_Container
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+
+volumes:
+  mongo1_data:
+  mongo2_data:
+

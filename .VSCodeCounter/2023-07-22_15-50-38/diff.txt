@@ -1,0 +1,44 @@
+Date : 2023-07-22 15:50:38
+Directory : c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend
+Total : 11 files,  188 codes, -1 comments, 39 blanks, all 226 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Markdown |          4 |        140 |          0 |         26 |        166 |
+| YAML     |          1 |         25 |          0 |          6 |         31 |
+| Python   |          5 |         22 |         -1 |          7 |         28 |
+| JSON     |          1 |          1 |          0 |          0 |          1 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                   |         11 |        188 |         -1 |         39 |        226 |
+| .VSCodeCounter                                                                                                      |          5 |        141 |          0 |         26 |        167 |
+| .VSCodeCounter\2023-07-14_21-34-39                                                                                  |          5 |        141 |          0 |         26 |        167 |
+| api                                                                                                                 |          3 |          4 |         -1 |          5 |          8 |
+| docker                                                                                                              |          1 |         25 |          0 |          6 |         31 |
+| mongo                                                                                                               |          2 |         18 |          0 |          2 |         20 |
+| mongo\functions                                                                                                     |          2 |         18 |          0 |          2 |         20 |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                            | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\details.md      | Markdown |         47 |          0 |          6 |         53 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\diff-details.md | Markdown |         40 |          0 |          6 |         46 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\diff.md         | Markdown |         26 |          0 |          7 |         33 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\results.json    | JSON     |          1 |          0 |          0 |          1 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\results.md      | Markdown |         27 |          0 |          7 |         34 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users.py                                   | Python   |        -15 |          0 |          2 |        -13 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_folder.py                            | Python   |         12 |          0 |          1 |         13 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_images.py                            | Python   |          7 |         -1 |          2 |          8 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\docker\docker-compose.yml                          | YAML     |         25 |          0 |          6 |         31 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_folder_functions.py           | Python   |         12 |          0 |          1 |         13 |
+| c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_functions.py                  | Python   |          6 |          0 |          1 |          7 |
+| Total                                                                                                               |          |        188 |         -1 |         39 |        226 |
++---------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

@@ -62,6 +62,8 @@ def mongo_start_data():
 
         for index, row in permission_list.iterrows():
             role_functions.update_role_permission_md('admin', row['name'])
+        for index, row in user_permissions.iterrows():
+            role_functions.update_role_permission_md('user', row['name'])
 
 
     #Direct Index
@@ -90,6 +92,9 @@ permission_list = permission_list.append({'name': 'update_plan', 'resource': '/p
 permission_list = permission_list.append({'name': 'get_all_plans', 'resource': '/plan/all/', 'method': "GET" , 'description': 'Get all plans'}, ignore_index=True)
 permission_list = permission_list.append({'name': 'add_resource_to_plan', 'resource': '/plan/add/resource/', 'method': "PUT" , 'description': 'Add resource to plan'}, ignore_index=True)
 permission_list = permission_list.append({'name': 'remove_resource_from_plan', 'resource': '/plan/update/resource/', 'method': "PUT" , 'description': 'Remove resource from plan'}, ignore_index=True)
+
+user_permissions = pd.DataFrame(columns=['name', 'resource', 'description'])
+user_permissions = user_permissions.append({'name': 'get_plan', 'resource': '/plan/', 'method': "GET" , 'description': 'Get plan'}, ignore_index=True)
 
 
 plan_resources = [{

@@ -1,0 +1,13 @@
+"filename", "language", "YAML", "Python", "Markdown", "JSON", "comment", "blank", "total"
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\details.md", "Markdown", 0, 0, 47, 0, 0, 6, 53
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\diff-details.md", "Markdown", 0, 0, 40, 0, 0, 6, 46
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\diff.md", "Markdown", 0, 0, 26, 0, 0, 7, 33
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\results.json", "JSON", 0, 0, 0, 1, 0, 0, 1
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\.VSCodeCounter\2023-07-14_21-34-39\results.md", "Markdown", 0, 0, 27, 0, 0, 7, 34
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users.py", "Python", 0, -15, 0, 0, 0, 2, -13
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_folder.py", "Python", 0, 12, 0, 0, 0, 1, 13
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\api\api_users_images.py", "Python", 0, 7, 0, 0, -1, 2, 8
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\docker\docker-compose.yml", "YAML", 25, 0, 0, 0, 0, 6, 31
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_folder_functions.py", "Python", 0, 12, 0, 0, 0, 1, 13
+"c:\Users\pedro\OneDrive\Área de Trabalho\Projetos\sd-gen-backend\mongo\functions\user_functions.py", "Python", 0, 6, 0, 0, 0, 1, 7
+"Total", "-", 25, 22, 140, 1, -1, 39, 226

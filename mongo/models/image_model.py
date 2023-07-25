@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
 
 class Image(BaseModel):
-    owner: str
+    owner: bytes
     name: str
     description: str = None
     is_public: bool = False

@@ -56,6 +56,19 @@ async def get_user_folder(
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
     
+@router_user_folder.get("/get/all/")
+async def get_user_folders(
+    authenticated: bool = Depends(check_permission),
+):
+    if authenticated:
+        folders = user_folder_functions.get_user_folders(authenticated["id"])
+        if folders:
+            return folders
+        else:
+            raise HTTPException(status_code=400, detail="Folders not found")
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
 @router_user_folder.delete("/delete/")
 async def delete_user_folder(
     id_or_folder: str,

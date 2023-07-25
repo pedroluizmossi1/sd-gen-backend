@@ -25,39 +25,26 @@ async def register_new_user(user: user_model.User.UserInsert):
         raise HTTPException(status_code=400, detail="User already exists")
 
 @router_user.get("/profile/")
-async def get_profile(login: Optional[str] = None, id: Optional[str] = None, authenticated: bool = Depends(check_permission)):
-    if authenticated["permission"] == False:
-        if login and authenticated["login"] == login:
-            user = user_model.User(**user_functions.get_user_by_login(login))
-            user.password = ""
-            return user
-        elif id and authenticated["id"] == id:
-            user = user_model.User(**user_functions.get_user_by_id(id))
-            user.password = ""
-            return user
-        elif login is None and id is None:
-            user = user_model.User(**user_functions.get_user_by_login(authenticated["login"]))
+async def get_profile(login_or_id: Optional[str] = None, authenticated: bool = Depends(check_permission)):
+    if authenticated["permission"] == False and login_or_id:
+        if authenticated["login"] == user_functions.get_user(login_or_id)["login"]:
+            user = user_model.User(**user_functions.get_user(login_or_id))
             user.password = ""
             return user
         else:
             raise HTTPException(status_code=401, detail="Unauthorized")
-    elif authenticated["permission"] == True:
-        if login:
-            user = user_model.User(**user_functions.get_user_by_login(login))
-            user.password = ""
-            return user
-        elif id:
-            user = user_model.User(**user_functions.get_user_by_id(id))
-            user.password = ""
-            return user
-        elif login is None and id is None:
-            user = user_model.User(**user_functions.get_user_by_login(authenticated["login"]))
-            user.password = ""
-            return user
-        else:
-            raise HTTPException(status_code=400, detail="Missing parameter")        
+    elif authenticated["permission"] == True and login_or_id:
+        user = user_model.User(**user_functions.get_user(login_or_id))
+        user.password = ""
+        return user
+    elif login_or_id is None:
+        user = user_model.User(**user_functions.get_user(authenticated["login"]))
+        user.password = ""
+        return user
     else:
         raise HTTPException(status_code=401, detail="Unauthorized")
+
+        
 
 @router_user.get("/profile/all/")
 async def get_all_users_profile(authenticated: bool = Depends(check_permission)):

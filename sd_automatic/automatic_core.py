@@ -2,6 +2,7 @@ import requests
 from config_core import get_config
 import mongo.models.image_model as image_model
 
+
 automatic_host = get_config("AUTOMATIC1111", "automatic_host")
 automatic_port = get_config("AUTOMATIC1111", "automatic_port")
 

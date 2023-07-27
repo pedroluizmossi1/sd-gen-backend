@@ -28,7 +28,7 @@ class User(BaseModel):
 
     class UserInsert(BaseModel):
         login: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")
-        password: str
+        password: constr(min_length=3, max_length=50)
         email: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
         first_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$")
         last_name: constr(min_length=3, max_length=50, regex="^[a-zA-Z0-9_-]+$")

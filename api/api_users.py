@@ -16,13 +16,18 @@ router_user = APIRouter(
 
 @router_user.post("/register/")
 async def register_new_user(user: user_model.User.UserInsert):
-    user = user_model.User(**user.dict())
-    user.login = user.login.lower()
-    user = user_functions.create_user(user)
-    if user is True:
-        return {"status": "User created"}
-    else:
-        raise HTTPException(status_code=400, detail="User already exists")
+    try:
+        user = user_model.User(**user.dict())
+        user.login = user.login.lower()
+        user = user_functions.create_user(user)
+        if user is True:
+            return {"status": "User created"}
+        elif user is False:
+            raise HTTPException(status_code=400, detail="User already exists")
+        else:
+            raise HTTPException(status_code=400, detail="User not created")
+    except ValidationError as e:
+        raise HTTPException(status_code=500, detail=e.json())
 
 @router_user.get("/profile/")
 async def get_profile(login_or_id: Optional[str] = None, authenticated: bool = Depends(check_permission)):

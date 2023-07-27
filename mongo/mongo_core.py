@@ -163,7 +163,8 @@ def handle_mongo_exceptions(exception):
     elif isinstance(exception, pymongo.errors.DocumentTooLarge):
         raise HTTPException(status_code=500, detail="The document is too large to be stored on the server.")
     elif isinstance(exception, pymongo.errors.DuplicateKeyError):
-        raise HTTPException(status_code=500, detail="Duplicate key found during insert or update.")
+        key_value = exception.details.get('keyValue')
+        raise HTTPException(status_code=500, detail="There is already a " + str(key_value) + " with this value.")
     elif isinstance(exception, pymongo.errors.EncryptionError):
         raise HTTPException(status_code=500, detail="Encryption or decryption error.")
     elif isinstance(exception, pymongo.errors.ExecutionTimeout):
@@ -196,9 +197,6 @@ def handle_mongo_exceptions(exception):
         raise HTTPException(status_code=500, detail="Error during write operations.")
     else:
         raise HTTPException(status_code=500, detail="Unknown error.")
-
-
-
 
 
 

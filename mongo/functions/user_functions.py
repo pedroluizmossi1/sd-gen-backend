@@ -21,7 +21,10 @@ def create_user(user: user_model.User):
         folder = folder_model.Folder(name="root", owner=user.inserted_id, description="root folder", is_public=False, is_active=True)
         folder = mongo_core.collection_folders.insert_one(folder.dict())
         mongo_core.collection_users.update_one({"_id": user.inserted_id}, {"$addToSet": {"folders": folder.inserted_id}})
-        return True
+        if user.inserted_id and folder.inserted_id:
+            return True
+        else:
+            return False
     except pymongo.errors.PyMongoError as e:
         mongo_core.handle_mongo_exceptions(e)
 

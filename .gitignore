@@ -1,4 +1,5 @@
 __pycache__/
+nginx_logs
 myKeyFile
 cert.pem
 key.pem

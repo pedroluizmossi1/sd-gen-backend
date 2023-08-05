@@ -53,7 +53,6 @@ async def get_profile(login_or_id: Optional[str] = None, authenticated: bool = D
 
 @router_user.get("/profile/all/")
 async def get_all_users_profile(authenticated: bool = Depends(check_permission)):
-    print(authenticated)
     user_list = []
     if authenticated["permission"] == True:
         users = user_functions.get_all_users()

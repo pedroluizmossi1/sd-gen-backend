@@ -31,6 +31,7 @@ def create_user(user: user_model.User):
 def login_user(login, password):
     try:
         user = mongo_core.collection_users.find_one({"login": login.lower()})
+        mongo_core.collection_users.update_one({"login": login.lower()}, {"$currentDate": {"last_login": True}})
         if user:
             if password == password_decrypt(user["password"].decode()):
                 return True
@@ -40,7 +41,18 @@ def login_user(login, password):
             return False    
     except pymongo.errors.PyMongoError as e:
         mongo_core.handle_mongo_exceptions(e)
-    
+
+def logout_user(login):
+    try:
+        user = mongo_core.collection_users.find_one({"login": login.lower()})
+        if user:
+            mongo_core.collection_users.update_one({"login": login.lower()}, {"$currentDate": {"last_logout": True}})
+            return True
+        else:
+            return False
+    except pymongo.errors.PyMongoError as e:
+        mongo_core.handle_mongo_exceptions(e)
+
 def get_user_by_login(login):
     try:
         user = mongo_core.collection_users.find_one({"login": login})
@@ -116,7 +128,7 @@ def update_user(login, user):
             try:
                 user.password = password_encrypt(user.password)
             except AttributeError:
-                mongo_core.collection_users.update_one({"login": login}, {"$set": user.dict()})
+                mongo_core.collection_users.update_one({"login": login}, {"$set": user.dict(), "$currentDate": {"updated_at": True}})
                 return True
         else:
             return False 
@@ -135,6 +147,21 @@ def update_user_by_id(id, user):
             return False 
     except pymongo.errors.PyMongoError as e:    
         mongo_core.handle_mongo_exceptions(e)
+
+def update_user_password(login, password):
+    try:
+        user = get_user_by_login(login)
+        if user:
+            password = password_encrypt(password)
+            mongo_core.collection_users.update_one({"login": login}, {"$set": {"password": password}, "$currentDate": {"updated_at": True, "last_password_change": True}})
+            return True
+        else:
+            return False
+    except pymongo.errors.PyMongoError as e:
+        mongo_core.handle_mongo_exceptions(e)
+        
+
+
     
 def delete_user(login):
     try:
@@ -187,6 +214,16 @@ def get_user_plan(login):
                 return user_plan
             else:
                 return False
+        else:
+            return False
+    except pymongo.errors.PyMongoError as e:    
+        mongo_core.handle_mongo_exceptions(e)
+
+def get_user_email(login):
+    try:
+        user = mongo_core.collection_users.find_one({"login": login})
+        if user:
+            return user['email']
         else:
             return False
     except pymongo.errors.PyMongoError as e:    

@@ -1,18 +1,23 @@
-from fastapi import FastAPI, Depends, Request, Response, status, HTTPException
+import logging
+import os
+
+from fastapi import Depends, FastAPI, HTTPException, Request, Response, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.staticfiles import StaticFiles
+from opentelemetry.propagate import inject
+
+from config_core import get_config
+
 from .api_auth import router_auth as router_auth
 from .api_folders import router_collection as router_collection
+from .api_models import router_model as router_model
+from .api_plans import router_plan as router_plan
+from .api_roles import router_role as router_role
 from .api_users import router_user as router_user
 from .api_users_folder import router_user_folder as router_user_folder
 from .api_users_images import router_user_image as router_user_image
-from .api_roles import router_role as router_role
-from .api_plans import router_plan as router_plan
-from config_core import get_config
-import os
-import logging
-from opentelemetry.propagate import inject
+from .api_users_model import router_user_model as router_user_model
 from .utils import PrometheusMiddleware, metrics, setting_otlp
 
 app = FastAPI()
@@ -27,11 +32,11 @@ origins = [
 ]
 
 APP_NAME = os.environ.get("APP_NAME", "app")
-OTLP_GRPC_ENDPOINT = os.environ.get("OTLP_GRPC_ENDPOINT", "http://tempo:4317")
+OTLP_GRPC_ENDPOINT = "http://localhost:4317"
 app.add_middleware(PrometheusMiddleware, app_name="app")
 app.add_route("/metrics", metrics)
 
-setting_otlp(app, APP_NAME, OTLP_GRPC_ENDPOINT)
+
 
 
 class EndpointFilter(logging.Filter):
@@ -56,9 +61,12 @@ app.include_router(router_auth)
 app.include_router(router_collection)
 app.include_router(router_user)
 app.include_router(router_user_folder)
+app.include_router(router_user_model)
 app.include_router(router_user_image)
 app.include_router(router_role)
 app.include_router(router_plan)
+app.include_router(router_model)
+
 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

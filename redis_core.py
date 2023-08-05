@@ -66,6 +66,32 @@ def delete_all_string_values(value):
         error_message = handle_redis_exceptions(e)
         raise HTTPException(status_code=500, detail=str(error_message))
 
+
+def insert_hash(hash, value, time):
+    try:
+        r.hmset(hash, value)
+        r.expire(hash, time)
+        return True
+    except redis.RedisError as e:
+        error_message = handle_redis_exceptions(e)
+        raise HTTPException(status_code=500, detail=str(error_message))
+    
+def get_hash(hash):	
+    try:
+        value = r.hgetall(hash)
+        return value
+    except redis.RedisError as e:
+        error_message = handle_redis_exceptions(e)
+        raise HTTPException(status_code=500, detail=str(error_message))
+    
+def delete_hash(hash):
+    try:
+        r.delete(hash)
+        return True
+    except redis.RedisError as e:
+        error_message = handle_redis_exceptions(e)
+        raise HTTPException(status_code=500, detail=str(error_message))
+
 def handle_redis_exceptions(exception):
     if isinstance(exception, redis.exceptions.AskError):
         raise HTTPException(status_code=500, detail="ASK error in Redis.")

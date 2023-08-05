@@ -15,16 +15,16 @@ def get_plan(value):
             return plan
         else:
             return False
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
 
 def create_plan(plan: plan_model.Plan):
     try:
         plan = plan
         mongo_core.collection_plans.insert_one(plan.dict())
         return plan
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
 
 def update_plan(plan: plan_model.Plan, value):
     try:
@@ -38,10 +38,8 @@ def update_plan(plan: plan_model.Plan, value):
             return True
         else:
             return False
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
-        
-
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
 
 def delete_plan(value):
     try:
@@ -53,8 +51,8 @@ def delete_plan(value):
             return True
         else:
             return False
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
 
 
 def get_all_plans():
@@ -64,8 +62,8 @@ def get_all_plans():
             return plans
         else:
             return False
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
 
 def update_resource_from_plan(value, resource):
     try:
@@ -77,8 +75,8 @@ def update_resource_from_plan(value, resource):
             plan = mongo_core.collection_plans.update_one({"name": value}, 
                                 {"$set": {"resources": resource.resources}})
             return plan
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
 
 def add_resource_to_plan(value, resource):
     try:
@@ -94,6 +92,23 @@ def add_resource_to_plan(value, resource):
                     {"$addToSet": {"resources": {"$each": resource.resources}}}
                 )
             return plan
-    except pymongo.errors.PyMongoError as e:
-        mongo_core.handle_mongo_exceptions(e)
-        
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
+
+def add_model_to_plan(value, parm_type, model_id):
+    try:
+        if mongo_core.is_valid_objectid(value):
+            plan = mongo_core.collection_plans.update_one(
+                {"_id": ObjectId(value)},
+                {"$addToSet": {f"resources.{0}.MODELS.{parm_type}": model_id}}
+            )
+            return plan
+        else:
+            plan = mongo_core.collection_plans.find_one_and_update(
+                {"name": value},
+                {"$addToSet": {f"resources.{0}.MODELS.{parm_type}": model_id}}
+            )
+            return plan
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
+

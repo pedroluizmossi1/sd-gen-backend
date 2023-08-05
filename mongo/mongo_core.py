@@ -6,6 +6,7 @@ import mongo.models.plan_model as plan_model
 import mongo.models.image_model as image_model
 import mongo.models.user_model as user_model
 import mongo.models.folder_model as folder_model
+import mongo.models.model_model as model_model
 from crypto_dash.crypto_core import password_encrypt, password_decrypt
 from config_core import get_config
 from bson.objectid import ObjectId
@@ -13,6 +14,7 @@ from fastapi import HTTPException
 import re
 import ast
 import pydantic
+import time
 
 
 mongo_obj_str = pydantic.json.ENCODERS_BY_TYPE[ObjectId]=str
@@ -40,8 +42,9 @@ collection_images = db['images']
 collection_roles = db['roles']
 collection_plans = db['plans']
 collection_permissions = db['permissions']
+collection_models = db['models']
 collection_list = {'users': user_model.User, 'folders': folder_model.Folder, 'images': image_model.Image, 'roles': role_model.Role, 'plans': plan_model.Plan, 
-                   'permissions': permission_model.Permission}
+                   'permissions': permission_model.Permission, 'models': model_model.Model}
 
 
 def check_collection(collection_name):
@@ -146,6 +149,10 @@ def get_documents_id_or_field(collection, field, value):
         return documents
     except pymongo.errors.PyMongoError as e:
         handle_mongo_exceptions(e)
+
+def get_current_time():
+    return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+
 
 def handle_mongo_exceptions(exception):
     if isinstance(exception, pymongo.errors.AutoReconnect):

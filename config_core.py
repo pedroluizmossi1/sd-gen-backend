@@ -37,6 +37,3 @@ def put_config(section, key, value):
     with open(os.path.join(os.path.dirname(__file__), 'config.ini'), 'w') as f:
         config.write(f)
 
-        
-
-

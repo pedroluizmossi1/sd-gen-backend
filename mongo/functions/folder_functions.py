@@ -3,8 +3,6 @@ import pymongo
 import mongo.models.folder_model as folder_model
 from mongo.functions.user_functions import get_user_by_login_ret_id
 import mongo.mongo_core as mongo_core
-from crypto_dash.crypto_core import password_encrypt, password_decrypt
-from config_core import get_config
 from bson.objectid import ObjectId
 
 mongo_core.mongo_obj_str

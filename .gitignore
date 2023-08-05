@@ -3,4 +3,5 @@ nginx_logs
 myKeyFile
 cert.pem
 key.pem
+.env
 ```

@@ -17,11 +17,9 @@ def create_image(image, folder, user):
         if image:
             if mongo_core.is_valid_objectid(folder):
                 folder = mongo_core.collection_folders.update_one({"_id": ObjectId(folder), "owner": ObjectId(user)},{"$addToSet": {"images": ObjectId(image.inserted_id)}})
-                print(folder)
                 return image.inserted_id
             elif mongo_core.is_valid_objectid(folder) == False:
                 folder = mongo_core.collection_folders.update_one({"name": folder, "owner": ObjectId(user)},{"$addToSet": {"images": ObjectId(image.inserted_id)}})
-                print(folder)
                 return image.inserted_id
             else:
                 return False
@@ -32,7 +30,6 @@ def create_image(image, folder, user):
 
 def get_image(image_id, owner):
     try:
-        print(image_id, owner)
         image = mongo_core.collection_images.find_one({"_id": ObjectId(image_id), "owner": ObjectId(owner)})
         if image:
             return image

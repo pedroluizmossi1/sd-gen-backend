@@ -28,7 +28,6 @@ else:
             f.write(config_file_example)
         config.read(os.path.join(os.path.dirname(__file__), 'config.ini'))
 
-
 def get_config(section, key):
     return config.get(section, key)
 

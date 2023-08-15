@@ -7,7 +7,7 @@ class Model(BaseModel):
     is_public: bool = True
     is_active: bool = True
     tags: list = []
-    info: dict = {}
+    info: object = {}
     type: str = None
     version: str = None
     image: bytes = None

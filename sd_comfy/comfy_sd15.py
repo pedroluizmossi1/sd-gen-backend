@@ -118,7 +118,6 @@ def sd15_exporter(positive_prompt,
     prompt["5"]["inputs"]["width"] = width
     prompt["5"]["inputs"]["height"] = height
     prompt["5"]["inputs"]["batch_size"] = batch_size
-    print(json.dumps(prompt, indent=2))
     return prompt
 
 SD15_LATENT = r"""

@@ -90,8 +90,15 @@ def mongo_start_data():
             role_functions.update_role_permission_md('user', row['name'])
 
     for index, row in model_list.iterrows():
-        model_list_insert = model_model.Model(name=row['name'], description=row['description'],
-                                              path=row['path'], is_public=row['is_public'], is_active=row['is_active'], type=row['type'], version=row['version'])
+        if row['version'] == 'SDXL':
+            model_list_insert = model_model.Model(name=row['name'], description=row['description'],
+                                                path=row['path'], is_public=row['is_public'], is_active=row['is_active'], type=row['type'], version=row['version'], info=SDXL_MODEL_INFO)
+        elif row['version'] == 'SD15':
+            model_list_insert = model_model.Model(name=row['name'], description=row['description'],
+                                                path=row['path'], is_public=row['is_public'], is_active=row['is_active'], type=row['type'], version=row['version'], info=SD15_MODEL_INFO)
+        else:
+            model_list_insert = model_model.Model(name=row['name'], description=row['description'],
+                                                path=row['path'], is_public=row['is_public'], is_active=row['is_active'], type=row['type'], version=row['version'], info={})
         model_inserted = model_functions.create_model(model_list_insert)
         plan_functions.add_model_to_plan(
             'admin', row['version'], model_inserted.inserted_id)
@@ -105,18 +112,25 @@ def mongo_start_data():
 
 SDXL_MODEL_INFO = {
     "width": 1024,
-    "height": 1024
+    "height": 1024,
+    "steps": 15,
+    "sampler_name": "dpmpp_2m",
+    "cfg_scale": 7
 }
 
 SD15_MODEL_INFO = {
     "width": 512,
-    "height": 768
+    "height": 768,
+    "steps": 20,
+    "sampler_name": "UniPC",
+    "cfg_scale": 7
 }
 
 model_list = pd.DataFrame(
-    columns=['name', 'description', 'path', 'is_public', 'is_active', 'info', 'type', 'version'])
+    columns=['name', 'description', 'path', 'is_public', 'is_active', 'type', 'version', 'info'])
 model_list = pd.concat([model_list, pd.DataFrame({'name': 'SDXL DreamShaper Alpha', 'description': 'SDXL Dream Shaper Alpha version',
-                       'path': 'SDXL\\dreamshaperXL10_alpha2Xl10.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SDXL'}, index=[0])])
+                       'path': 'SDXL\\dreamshaperXL10_alpha2Xl10.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SDXL',
+                          'info': SDXL_MODEL_INFO}, index=[0])])
 model_list = pd.concat([model_list, pd.DataFrame({'name': 'SD1.5 DreamShaper 8', 'description': 'SD1.5 Dream Shaper 8 version',
                        'path': 'Artistic\\dreamshaper_8.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SD15',
                        'info': SD15_MODEL_INFO}, index=[0])])

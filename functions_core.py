@@ -49,8 +49,6 @@ def process_images_multithread_bytes(images):
 
 def send_email(receiver_email, subject, body):
     smtp_server, smtp_port = get_config("EMAIL","smtp_server"), get_config("EMAIL","smtp_port")
-    dotenv_path = '.env'
-    load_dotenv(dotenv_path)
     sender_email, sender_password = os.getenv("GOOGLE_EMAIL_APP"), os.getenv("GOOGLE_EMAIL_APP_PASSWORD")
     try:
         # Set up the email message

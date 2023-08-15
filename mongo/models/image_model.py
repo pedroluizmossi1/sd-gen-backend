@@ -78,7 +78,7 @@ class Image(BaseModel):
         batch_size: int = 1
         width: int = 1024
         height: int = 1024,
-        steps: int = 10
+        steps: int = 15
         cfg_scale: float = 7.0
         sampler_name: str = "dpmpp_2m"
         model_path: str = None
@@ -95,7 +95,7 @@ class Image(BaseModel):
                     "batch_size": 1,
                     "width": 1024,
                     "height": 1024,
-                    "steps": 10,
+                    "steps": 15,
                     "cfg_scale": 7.0,
                     "sampler_name": "dpmpp_2m",
                     "model_path": "SDXL\\dreamshaperXL10_alpha2Xl10.safetensors",

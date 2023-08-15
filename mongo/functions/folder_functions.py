@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import pymongo
 import mongo.models.folder_model as folder_model
-from mongo.functions.user_functions import get_user_by_login_ret_id
+from mongo.functions.user_functions import get_user_by_login_ret_id, get_user_by_id
 import mongo.mongo_core as mongo_core
 from bson.objectid import ObjectId
 
@@ -18,8 +18,8 @@ def create_folder(folder: folder_model.Folder):
 
 def get_folder_by_name(name, owner):
     try:
-        owner = get_user_by_login_ret_id(owner)
-        folder = mongo_core.collection_folders.find_one({"name": name, "owner": owner})
+        owner = get_user_by_id(owner)
+        folder = mongo_core.collection_folders.find_one({"name": name, "owner": owner['_id']})
         if folder:
             return folder
         else:

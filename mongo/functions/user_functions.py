@@ -6,7 +6,8 @@ import mongo.models.folder_model as folder_model
 from crypto_dash.crypto_core import password_encrypt, password_decrypt
 from config_core import get_config
 from bson.objectid import ObjectId
-
+from bson import Binary
+import base64
 mongo_core.mongo_obj_str
 
 def create_user(user: user_model.User):
@@ -121,6 +122,21 @@ def update_user_role(login, role):
             return False
     except pymongo.errors.PyMongoError as e:    
         mongo_core.handle_mongo_exceptions(e)
+        
+def update_user_image(login, image_data):
+    try:
+        if get_user_by_login(login):
+            mongo_core.collection_users.update_one(
+                {"login": login},
+                {"$set": {"profile_picture": str(image_data)}}
+            )
+            return True
+        else:
+            return False
+    except pymongo.errors.PyMongoError as err:
+        mongo_core.handle_mongo_exceptions(err)
+
+      
 
 def update_user(login, user):
     try:

@@ -36,18 +36,15 @@ async def get_user_image(
     authenticated: bool = Depends(check_permission),
 ):
     """Get user image by id"""
-    try:
-        if authenticated["permission"] is True:
-            image = user_image_functions.get_image(
-                image_id, authenticated["id"])
-            if image:
-                return Response(content=image["image"], media_type="image/webp")
-            else:
-                raise HTTPException(status_code=400, detail="Image not found")
+    if authenticated["permission"] is True:
+        image = user_image_functions.get_image(
+            image_id, authenticated["id"])
+        if image:
+            return Response(content=image["image"], media_type="image/webp")
         else:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+            raise HTTPException(status_code=400, detail="Image not found")
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
 
 @router_user_image.delete("/")
@@ -56,18 +53,15 @@ async def delete_user_image(
     authenticated: bool = Depends(check_permission),
 ):
     """Delete user image by id"""
-    try:
-        if authenticated["permission"] is True:
-            image = user_image_functions.delete_image(
-                image_id, authenticated["id"])
-            if image:
-                return {"message": "Image deleted"}
-            else:
-                raise HTTPException(status_code=400, detail="Image not found")
+    if authenticated["permission"] is True:
+        image = user_image_functions.delete_image(
+            image_id, authenticated["id"])
+        if image:
+            return {"message": "Image deleted"}
         else:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+            raise HTTPException(status_code=400, detail="Image not found")
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
 
 @router_user_image.post("/txt2img/v2/sdxl/")
@@ -77,7 +71,10 @@ async def create_user_image_txt2img_v2_sdxl(
         refiner: Optional[bool] = False,
         authenticated: bool = Depends(check_permission)):
     """Create user image from text using SDXL"""
-    try:
+    if authenticated["permission"] is True:
+        image_queue = await comfy_core.get_queue_async(authenticated["id"], SDXL_SERVER)
+        if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
+            raise HTTPException(status_code=400, detail="You already have images in queue")
         if authenticated["permission"] is True:
             image_list = []
             image_insert = image_model.Image(owner=authenticated["id"], name=f"txt2img_{random.randint(100000, 999999)}", description="Image generated from text",
@@ -118,21 +115,16 @@ async def create_user_image_txt2img_v2_sdxl(
                 raise HTTPException(status_code=400, detail="Folder not found")
         else:
             raise HTTPException(status_code=401, detail="Unauthorized")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
 
 
 @router_user_image.get("/txt2img/v2/sdxl/queue/")
 async def create_user_image_txt2img_v2_sdxl_queue(
         authenticated: bool = Depends(check_permission)):
     """Get user image queue from SDXL"""	
-    try:
-        if authenticated:
-            return await comfy_core.get_queue_async(authenticated["id"], SDXL_SERVER)
-        else:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+    if authenticated:
+        return await comfy_core.get_queue_async(authenticated["id"], SDXL_SERVER)
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
 @router_user_image.post("/txt2img/v2/sd15/")
 async def create_user_image_txt2img_v2_sd15(
@@ -141,8 +133,11 @@ async def create_user_image_txt2img_v2_sd15(
         authenticated: bool = Depends(check_permission),
         latent: Optional[bool] = False):
     """Create user image from text using SD15"""
-    try:
-        if authenticated["permission"] == True:
+    if authenticated["permission"] is True:
+        image_queue = await comfy_core.get_queue_async(authenticated["id"], SD15_SERVER)
+        if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
+            raise HTTPException(status_code=400, detail="You already have images in queue")
+        if authenticated["permission"] is True:
             image_list = []
             image_insert = image_model.Image(owner=authenticated["id"], name=f"txt2img_{random.randint(100000, 999999)}", description="Image generated from text",
                                             tags=["txt2img"], info={}, type="txt2img", image="")
@@ -184,8 +179,6 @@ async def create_user_image_txt2img_v2_sd15(
                 raise HTTPException(status_code=400, detail="Folder not found")
         else:
             raise HTTPException(status_code=401, detail="Unauthorized")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
 
 
 @router_user_image.get("/txt2img/v2/sd15/queue/")
@@ -193,10 +186,7 @@ async def create_user_image_txt2img_v2_sd15_queue(
     authenticated: bool = Depends(check_permission),
 ):
     """Get queue of images to be processed"""	
-    try:
-        if authenticated:
-            return await comfy_core.get_queue_async(authenticated["id"], SD15_SERVER)
-        else:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+    if authenticated:
+        return await comfy_core.get_queue_async(authenticated["id"], SD15_SERVER)
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")

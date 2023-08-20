@@ -6,6 +6,7 @@ import urllib.parse
 import websockets
 import asyncio
 from config_core import get_config
+from fastapi import HTTPException
 
 server_address_list = get_config('COMFYUI', 'comfyui_servers').split(',')
 
@@ -104,6 +105,9 @@ async def async_get_images(prompt, client_id, server_index=None):
     return images
 
 async def get_queue_async(user_id=None, server_index=None):
-    loop = asyncio.get_event_loop()
-    queue = await loop.run_in_executor(None, get_queue, user_id, server_index)
-    return queue
+    try:
+        loop = asyncio.get_event_loop()
+        queue = await loop.run_in_executor(None, get_queue, user_id, server_index)
+        return queue
+    except Exception as err:
+        raise HTTPException(status_code=500, detail="We had a problem getting the queue, please contact the administrator.") from err

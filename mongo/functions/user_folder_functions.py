@@ -82,6 +82,8 @@ def delete_user_folder(owner, folder):
     try:
         folder = get_user_folder(owner, folder)
         if folder:
+            for image in folder["images"]:
+                mongo_core.collection_images.delete_one({"_id": ObjectId(image)})
             mongo_core.collection_folders.delete_one({"_id": ObjectId(folder["_id"])})
             user = mongo_core.collection_users.update_one({"_id": ObjectId(owner)}, {"$pull": {"folders": ObjectId(folder["_id"])}})
             return True

@@ -118,3 +118,19 @@ async def update_user_profile_fl_name(id: Optional[str] = None, login: Optional[
                 raise HTTPException(status_code=400, detail="User not found")
         else:
             raise HTTPException(status_code=400, detail="Missing parameter")
+        
+@router_user.put("/profile/image/")
+async def update_user_profile_image(user: user_model.User.UpdateImage = None, authenticated: bool = Depends(check_permission)):
+    image_max_size_KB = 512
+    if authenticated:
+        if user.profile_picture is None:
+            raise HTTPException(status_code=400, detail="Missing parameter")
+        if len(user.profile_picture.encode()) > image_max_size_KB * 1024:
+            raise HTTPException(status_code=400, detail="Image too big")
+        if user_functions.update_user_image(authenticated["login"], user.profile_picture):
+            return {"status": "User updated"}
+        else:
+            raise HTTPException(status_code=400, detail="User not found")
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    

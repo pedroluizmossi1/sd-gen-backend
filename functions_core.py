@@ -9,6 +9,11 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 
+
+load_dotenv()
+SENDER_EMAIL = os.getenv("GOOGLE_EMAIL_APP")
+SENDER_PASSWORD = os.getenv("GOOGLE_EMAIL_APP_PASSWORD")
+
 def base64_image_to_image(base64_image):
     try:
         image_bytes = base64_image.encode('utf-8')
@@ -49,11 +54,11 @@ def process_images_multithread_bytes(images):
 
 def send_email(receiver_email, subject, body):
     smtp_server, smtp_port = get_config("EMAIL","smtp_server"), get_config("EMAIL","smtp_port")
-    sender_email, sender_password = os.getenv("GOOGLE_EMAIL_APP"), os.getenv("GOOGLE_EMAIL_APP_PASSWORD")
+    print(SENDER_EMAIL, SENDER_PASSWORD)
     try:
         # Set up the email message
         message = MIMEMultipart()
-        message["From"] = sender_email
+        message["From"] = SENDER_EMAIL
         message["To"] = receiver_email
         message["Subject"] = subject
 
@@ -65,10 +70,10 @@ def send_email(receiver_email, subject, body):
         server.starttls()
 
         # Login to your Gmail account
-        server.login(sender_email, sender_password)
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
 
         # Send the email
-        server.sendmail(sender_email, receiver_email, message.as_string())
+        server.sendmail(SENDER_EMAIL, receiver_email, message.as_string())
         # Close the connection
         server.quit()
 

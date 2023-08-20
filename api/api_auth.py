@@ -84,15 +84,13 @@ async def user_login(user_login: user_model.User.Login):
     - If the login fails, an HTTPException with a status code of 401 and a detailed error message.
     - If an error occurs, an HTTPException with a status code of 500 and a detailed error message.
     """
-    try:
-        login = user_functions.login_user(user_login.login, user_login.password)
-        token = insert_json(json.dumps({"login":user_login.login}), 36000)
-        if login is True and token is not False:
-            return {"message": "Login success", "token": token}
-        else:
-            raise HTTPException(status_code=401, detail="Failed to login, check your login or password")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+    login = user_functions.login_user(user_login.login, user_login.password)
+    token = insert_json(json.dumps({"login":user_login.login}), 36000)
+    if login is True and token is not False:
+        return {"message": "Login success", "token": token}
+    else:
+        raise HTTPException(status_code=401, detail="Failed to login, check your login or password")
+
     
 
 
@@ -109,13 +107,10 @@ async def user_logout(login: str = Depends(authorize_token)):
 @router_auth.get("/check/")
 async def check_token(token: str):
     """Check token"""
-    try:
-        if get_json(token):
-            return True
-        else:
-            raise HTTPException(status_code=401, detail="Invalid or expired token")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+    if get_json(token):
+        return True
+    else:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
         
 @router_auth.post("/password/reset/token/",
                   summary="Send reset password token to email",
@@ -124,8 +119,8 @@ async def reset_password_token(login: str):
     """Send reset password token to email"""
     try:
         ramdom_reset = random.randint(100000, 999999)
-    except:
-        raise HTTPException(status_code=500, detail="Failed to generate reset code")
+    except Exception as err:
+        raise HTTPException(status_code=500, detail="Failed to generate reset code") from err
     json_data = {"login": login}
     user_email = user_functions.get_user_email(login)
     email = functions_core.send_email(user_email, "Reset password", "Your reset code is: " + str(ramdom_reset))
@@ -133,24 +128,20 @@ async def reset_password_token(login: str):
         insert_hash(ramdom_reset, json_data, 300)
         return {"message": "Email sent"}
     else:
-        raise HTTPException(status_code=500, detail="Failed to send email")
+        raise HTTPException(status_code=500, detail=email)
         
 @router_auth.put("/password/reset/",
                  summary="Reset password with token",
                  description="Reset password with token, TTL 5 minutes.")
 async def reset_password(login: str, reset_token: int, new_password: str):
     """Reset password with token"""
-    try:
-        redis_data = get_hash(reset_token)
-        if redis_data and redis_data["login"] == login:
-            user_functions.update_user_password(login, new_password)
-            delete_hash(reset_token)
-            return {"message": "Password reset success"}
-        else:
-            raise HTTPException(status_code=401, detail="Invalid reset token")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
-    
+    redis_data = get_hash(reset_token)
+    if redis_data and redis_data["login"] == login:
+        user_functions.update_user_password(login, new_password)
+        delete_hash(reset_token)
+        return {"message": "Password reset success"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid reset token")
     
     
 

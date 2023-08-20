@@ -22,7 +22,7 @@ class User(BaseModel):
     plan: object = None
     folders: list = []
     settings: object = user_settings
-    profile_picture: bytes = None
+    profile_picture: str = None
     created_at: datetime = None
     updated_at: datetime = None
     last_login: datetime = None
@@ -78,6 +78,16 @@ class User(BaseModel):
                 }
             }
 
+    class UpdateImage(BaseModel):
+        profile_picture: str
+
+        class Config:
+            schema_extra = {
+                "example": {
+                    "profile_picture": "bytes"
+                }
+            }
+    
     class Config:
         schema_extra = {
             "example": {

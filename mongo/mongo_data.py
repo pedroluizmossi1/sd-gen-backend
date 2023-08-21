@@ -236,6 +236,14 @@ permission_list = pd.concat([permission_list,
                              pd.DataFrame({'name': 'delete_model', 'resource': '/model/',
                                            'method': "DELETE", 'description': 'Delete model'},
                                           index=[0])])
+permission_list = pd.concat([permission_list,
+                                pd.DataFrame({'name': 'upload_faceswap_image', 'resource': '/user/image/faceswap/upload/',
+                                                'method': "POST", 'description': 'Upload faceswap image'},
+                                                index=[0])]) 
+permission_list = pd.concat([permission_list,
+                                pd.DataFrame({'name': 'post_faceswap_image', 'resource': '/user/image/faceswap/',
+                                                'method': "POST", 'description': 'Post faceswap image'},
+                                                index=[0])])
 
 user_permissions = pd.DataFrame(columns=['name', 'resource', 'description'])
 user_permissions = pd.concat([user_permissions,
@@ -258,3 +266,11 @@ user_permissions = pd.concat([user_permissions,
                               pd.DataFrame({'name': 'generate_txt2img_v2_sd15', 'resource': '/user/image/txt2img/v2/sd15/',
                                             'method': "POST", 'description': 'Generate image from text'},
                                            index=[0])])
+user_permissions = pd.concat([user_permissions,
+                                pd.DataFrame({'name': 'upload_faceswap_image', 'resource': '/user/image/faceswap/upload/',
+                                                'method': "POST", 'description': 'Upload faceswap image'},
+                                                index=[0])])
+user_permissions = pd.concat([user_permissions,
+                                pd.DataFrame({'name': 'post_faceswap_image', 'resource': '/user/image/faceswap/',
+                                                'method': "POST", 'description': 'Post faceswap image'},
+                                                index=[0])])

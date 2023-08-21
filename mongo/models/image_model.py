@@ -143,7 +143,31 @@ class Image(BaseModel):
                 }
             }
         
-
+    class faceSwapImg(BaseModel):
+        image: bytes
+        class Config:
+            schema_extra = {
+                "example": {
+                    "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
+                }
+            }
+    
+    class faceSwap(BaseModel):
+        target_id: str = None
+        reference_id: str = None
+        target_url: str = None
+        reference_url: str = None
+        upscale: int = 1
+        class Config:
+            schema_extra = {
+                "example": {
+                    "target_id": "",
+                    "reference_id": "",
+                    "target_url": "",
+                    "reference_url": "",
+                    "upscale": 1
+                }
+            }
     class Index:
         indexes = {
 

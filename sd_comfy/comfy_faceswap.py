@@ -73,13 +73,13 @@ FACESWAP = """
   },
   "90": {
     "inputs": {
-      "url": "http://127.0.0.1:8000/user/image/faceswap/?image_id=64e2be999e890919d62b893d"
+      "url": ""
     },
     "class_type": "Load Image From Url (mtb)"
   },
   "91": {
     "inputs": {
-      "url": "https://pbs.twimg.com/media/FufTG9aWwAoP8bt?format=jpg&name=large"
+      "url": ""
     },
     "class_type": "Load Image From Url (mtb)"
   }

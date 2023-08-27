@@ -94,8 +94,13 @@ async def create_user_image_faceswap(
     if authenticated["permission"] is True:
         if image.target_url and image.target_id:
             raise HTTPException(status_code=400, detail="You can't use both target_url and target_id")
-        if image.reference_url and image.reference_id:
+        elif image.reference_url and image.reference_id:
             raise HTTPException(status_code=400, detail="You can't use both reference_url and reference_id")
+        elif not image.target_url and not image.target_id:
+            raise HTTPException(status_code=400, detail="You must use target_url or target_id")
+        elif not image.reference_url and not image.reference_id:
+            raise HTTPException(status_code=400, detail="You must use reference_url or reference_id")
+        
         folder_response = folder_functions.get_folder_by_name(
             folder, authenticated["id"])
         if folder_response:
@@ -212,6 +217,7 @@ async def create_user_image_txt2img_v2_sd15(
         authenticated: bool = Depends(check_permission),
         latent: Optional[bool] = False):
     """Create user image from text using SD15"""
+    
     if authenticated["permission"] is True:
         image_queue = await comfy_core.get_queue_async(authenticated["id"], SD15_SERVER)
         if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
@@ -247,6 +253,7 @@ async def create_user_image_txt2img_v2_sd15(
                                 raise HTTPException(
                                     status_code=400, detail="Error creating image")
                         if "error" in response:
+                            print(response)
                             raise HTTPException(
                                 status_code=400, detail=response["error"])
                         else:

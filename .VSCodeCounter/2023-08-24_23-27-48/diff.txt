@@ -1,0 +1,61 @@
+Date : 2023-08-24 23:27:48
+Directory : d:\projetos\sd-gen-backend
+Total : 24 files,  389 codes, 138 comments, 38 blanks, all 565 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Markdown |          4 |        269 |          0 |         26 |        295 |
+| Python   |         17 |        138 |        138 |         16 |        292 |
+| JSON     |          1 |          1 |          0 |          0 |          1 |
+| Ini      |          2 |        -19 |          0 |         -4 |        -23 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                             |         24 |        389 |        138 |         38 |        565 |
+| . (Files)                                                                     |          5 |        -20 |          0 |          1 |        -19 |
+| .VSCodeCounter                                                                |          5 |        270 |          0 |         26 |        296 |
+| .VSCodeCounter\2023-08-05_06-20-55                                            |          5 |        270 |          0 |         26 |        296 |
+| api                                                                           |          5 |         31 |         32 |          3 |         66 |
+| crypto_dash                                                                   |          1 |          0 |         24 |          0 |         24 |
+| mongo                                                                         |          6 |         88 |          0 |          5 |         93 |
+| mongo (Files)                                                                 |          1 |         31 |          0 |          0 |         31 |
+| mongo\functions                                                               |          3 |         25 |          0 |          3 |         28 |
+| mongo\models                                                                  |          2 |         32 |          0 |          2 |         34 |
+| sd_comfy                                                                      |          2 |         20 |         82 |          3 |        105 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                      | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\projetos\sd-gen-backend\.VSCodeCounter\2023-08-05_06-20-55\details.md      | Markdown |         70 |          0 |          6 |         76 |
+| d:\projetos\sd-gen-backend\.VSCodeCounter\2023-08-05_06-20-55\diff-details.md | Markdown |        114 |          0 |          6 |        120 |
+| d:\projetos\sd-gen-backend\.VSCodeCounter\2023-08-05_06-20-55\diff.md         | Markdown |         52 |          0 |          7 |         59 |
+| d:\projetos\sd-gen-backend\.VSCodeCounter\2023-08-05_06-20-55\results.json    | JSON     |          1 |          0 |          0 |          1 |
+| d:\projetos\sd-gen-backend\.VSCodeCounter\2023-08-05_06-20-55\results.md      | Markdown |         33 |          0 |          7 |         40 |
+| d:\projetos\sd-gen-backend\api\__init__.py                                    | Python   |          0 |          0 |          1 |          1 |
+| d:\projetos\sd-gen-backend\api\api_auth.py                                    | Python   |          6 |         26 |          0 |         32 |
+| d:\projetos\sd-gen-backend\api\api_users.py                                   | Python   |         14 |          0 |          2 |         16 |
+| d:\projetos\sd-gen-backend\api\api_users_images.py                            | Python   |          9 |          6 |          0 |         15 |
+| d:\projetos\sd-gen-backend\api\api_users_model.py                             | Python   |          2 |          0 |          0 |          2 |
+| d:\projetos\sd-gen-backend\config copy.ini                                    | Ini      |        -20 |          0 |         -5 |        -25 |
+| d:\projetos\sd-gen-backend\config.ini                                         | Ini      |          1 |          0 |          1 |          2 |
+| d:\projetos\sd-gen-backend\config_core.py                                     | Python   |          0 |          0 |         -1 |         -1 |
+| d:\projetos\sd-gen-backend\crypto_dash\crypto_core.py                         | Python   |          0 |         24 |          0 |         24 |
+| d:\projetos\sd-gen-backend\functions_core.py                                  | Python   |          1 |          0 |          2 |          3 |
+| d:\projetos\sd-gen-backend\main.py                                            | Python   |         -2 |          0 |          4 |          2 |
+| d:\projetos\sd-gen-backend\mongo\functions\user_folder_functions.py           | Python   |          2 |          0 |          0 |          2 |
+| d:\projetos\sd-gen-backend\mongo\functions\user_functions.py                  | Python   |         14 |          0 |          2 |         16 |
+| d:\projetos\sd-gen-backend\mongo\functions\user_image_functions.py            | Python   |          9 |          0 |          1 |         10 |
+| d:\projetos\sd-gen-backend\mongo\models\image_model.py                        | Python   |         24 |          0 |          0 |         24 |
+| d:\projetos\sd-gen-backend\mongo\models\user_model.py                         | Python   |          8 |          0 |          2 |         10 |
+| d:\projetos\sd-gen-backend\mongo\mongo_data.py                                | Python   |         31 |          0 |          0 |         31 |
+| d:\projetos\sd-gen-backend\sd_comfy\comfy_core.py                             | Python   |          4 |          0 |          0 |          4 |
+| d:\projetos\sd-gen-backend\sd_comfy\comfy_faceswap.py                         | Python   |         16 |         82 |          3 |        101 |
+| Total                                                                         |          |        389 |        138 |         38 |        565 |
++-------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

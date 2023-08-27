@@ -11,9 +11,9 @@ mongo_core.mongo_obj_str
 
 def create_image(image, folder, user):
     try:
-        image = image
         image.owner = ObjectId(user)
         image = mongo_core.collection_images.insert_one(image.dict())
+        print(folder)
         if image:
             if mongo_core.is_valid_objectid(folder):
                 folder = mongo_core.collection_folders.update_one({"_id": ObjectId(folder), "owner": ObjectId(user)},{"$addToSet": {"images": ObjectId(image.inserted_id)}})
@@ -31,6 +31,16 @@ def create_image(image, folder, user):
 def get_image(image_id, owner):
     try:
         image = mongo_core.collection_images.find_one({"_id": ObjectId(image_id), "owner": ObjectId(owner)})
+        if image:
+            return image
+        else:
+            return False
+    except pymongo.errors.PyMongoError as e:
+        mongo_core.handle_mongo_exceptions(e)
+        
+def get_public_image(image_id):
+    try:
+        image = mongo_core.collection_images.find_one({"_id": ObjectId(image_id)})
         if image:
             return image
         else:

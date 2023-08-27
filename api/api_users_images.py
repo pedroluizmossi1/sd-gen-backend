@@ -109,9 +109,6 @@ async def create_user_image_faceswap(
             images_process_list = process_images_multithread_bytes(
                 response)
             image_list = []
-            if images_process_list == []:
-                raise HTTPException(
-                    status_code=400, detail="Check your target or reference images possibly the faces are not aligned, sometimes it happens with images try with another one.")
             for key in images_process_list:
                 image_insert = image_model.Image(owner=authenticated["id"], name=f"faceswap_{random.randint(100000, 999999)}", description="Image generated from faceswap",
                                                  tags=["faceswap"], info={}, type="faceswap", image=key)

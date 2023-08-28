@@ -157,7 +157,8 @@ class Image(BaseModel):
         reference_id: str = None
         target_url: str = None
         reference_url: str = None
-        upscale: int = 1
+        upscale: bool = True
+        face_index: int = 0
         class Config:
             schema_extra = {
                 "example": {
@@ -165,7 +166,8 @@ class Image(BaseModel):
                     "reference_id": "",
                     "target_url": "",
                     "reference_url": "",
-                    "upscale": 1
+                    "upscale": True,
+                    "face_index": 0
                 }
             }
     class Index:

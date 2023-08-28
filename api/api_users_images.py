@@ -104,7 +104,7 @@ async def create_user_image_faceswap(
         folder_response = folder_functions.get_folder_by_name(
             folder, authenticated["id"])
         if folder_response:
-            prompt_config = comfy_faceswap.faceswap_exporter(image.target_id, image.reference_id, image.target_url, image.reference_url)
+            prompt_config = comfy_faceswap.faceswap_exporter(image.target_id, image.reference_id, image.target_url, image.reference_url, image.upscale, image.face_index)
             response = await comfy_core.async_get_images(prompt_config, authenticated['id'], SDXL_SERVER)
             images_process_list = process_images_multithread_bytes(
                 response)
@@ -158,6 +158,7 @@ async def create_user_image_txt2img_v2_sdxl(
         refiner: Optional[bool] = False,
         authenticated: bool = Depends(check_permission)):
     """Create user image from text using SDXL"""
+    print(image)
     if authenticated["permission"] is True:
         image_queue = await comfy_core.get_queue_async(authenticated["id"], SDXL_SERVER)
         if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
@@ -220,7 +221,7 @@ async def create_user_image_txt2img_v2_sd15(
         authenticated: bool = Depends(check_permission),
         latent: Optional[bool] = False):
     """Create user image from text using SD15"""
-    
+    print(image)
     if authenticated["permission"] is True:
         image_queue = await comfy_core.get_queue_async(authenticated["id"], SD15_SERVER)
         if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
@@ -235,7 +236,6 @@ async def create_user_image_txt2img_v2_sd15(
                 plan_resource = check_plan(
                     ["BASE_X", "BASE_Y", "BATCH_SIZE", "SD15_SAMPLER", "STEPS", "SD15", "LATENT"], authenticated["plan"])
                 if image.height <= plan_resource["BASE_X"] and image.width <= plan_resource["BASE_Y"] and image.batch_size <= plan_resource["BATCH_SIZE"] and image.sampler_name in plan_resource["SD15_SAMPLER"] and image.steps <= plan_resource["STEPS"] and plan_resource["SD15"] is True:
-                    
                         if latent and plan_resource["LATENT"] is True:
                             prompt_config = comfy_sd15.sd15_latent_exporter(image.prompt, image.negative_prompt, image.seed, image.width, image.height, image.batch_size,
                                                                             image.model_path, image.steps, image.cfg_scale, image.sampler_name, image.latent_denoise, image.latent_seed,

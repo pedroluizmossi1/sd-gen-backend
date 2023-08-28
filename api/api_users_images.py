@@ -158,7 +158,6 @@ async def create_user_image_txt2img_v2_sdxl(
         refiner: Optional[bool] = False,
         authenticated: bool = Depends(check_permission)):
     """Create user image from text using SDXL"""
-    print(image)
     if authenticated["permission"] is True:
         image_queue = await comfy_core.get_queue_async(authenticated["id"], SDXL_SERVER)
         if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
@@ -221,7 +220,6 @@ async def create_user_image_txt2img_v2_sd15(
         authenticated: bool = Depends(check_permission),
         latent: Optional[bool] = False):
     """Create user image from text using SD15"""
-    print(image)
     if authenticated["permission"] is True:
         image_queue = await comfy_core.get_queue_async(authenticated["id"], SD15_SERVER)
         if image_queue["queue_running"] > 0 or image_queue["queue_position"] > 0:
@@ -256,7 +254,6 @@ async def create_user_image_txt2img_v2_sd15(
                                 raise HTTPException(
                                     status_code=400, detail="Error creating image")
                         if "error" in response:
-                            print(response)
                             raise HTTPException(
                                 status_code=400, detail=response["error"])
                         else:

@@ -31,8 +31,8 @@ plan_resources = [{
     'BASE_Y': 1024,
     'HIGRESFIX': 2,
     'STEPS': 50,
-    'SD15_SAMPLER': ["Euler", "Euler a", "UniPC", "dpmpp_2m"],
-    'SDXL_SAMPLER': ["Euler", "Euler a", "UniPC", "dpmpp_2m"],
+    'SD15_SAMPLER': ["euler", "euler_ancestral", "uni_pc", "dpmpp_2m", "uni_pc_bh2"],
+    'SDXL_SAMPLER': ["euler", "euler_ancestral", "uni_pc", "dpmpp_2m", "uni_pc_bh2"],
     'BATCH_SIZE': 2,
     'MODELS': {
         'SDXL': [],
@@ -122,7 +122,7 @@ SD15_MODEL_INFO = {
     "width": 512,
     "height": 768,
     "steps": 20,
-    "sampler_name": "UniPC",
+    "sampler_name": "uni_pc",
     "cfg_scale": 7
 }
 
@@ -134,6 +134,15 @@ model_list = pd.concat([model_list, pd.DataFrame({'name': 'SDXL DreamShaper Alph
 model_list = pd.concat([model_list, pd.DataFrame({'name': 'SD1.5 DreamShaper 8', 'description': 'SD1.5 Dream Shaper 8 version',
                        'path': 'Artistic\\dreamshaper_8.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SD15',
                        'info': SD15_MODEL_INFO}, index=[0])])
+model_list = pd.concat([model_list, pd.DataFrame({'name': 'SD1.5 Art Universe', 'description': 'This model was created by mixing several different models with each other, as well as adding about 10 LORA. This is an interesting model for creating images in the style of comics or cartoons.',
+                                                  'path': 'Artistic\\artUniverse_v50.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SD15',
+                                                  'info': SD15_MODEL_INFO}, index=[0])])
+model_list = pd.concat([model_list, pd.DataFrame({'name': 'SD1.5 Aniverse', 'description': 'SD1.5 Aniverse',
+                                                  'path': 'Artistic\\aniverse_V12Pruned.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SD15',
+                                                  'info': SD15_MODEL_INFO}, index=[0])])
+model_list = pd.concat([model_list, pd.DataFrame({'name': 'SD1.5 Reliberate', 'description': 'Reliberate model for those who need to work with photographic style. Yes, you can still create artwork, but it will look more like real artwork than digital.',
+                                                  'path': 'Realistic\\reliberate_v20.safetensors', 'is_public': True, 'is_active': True, 'type': 'txt2img', 'version': 'SD15',
+                                                  'info': SD15_MODEL_INFO}, index=[0])])
 
 permission_list = pd.DataFrame(columns=['name', 'resource', 'description'])
 permission_list = pd.concat([permission_list,
@@ -236,6 +245,14 @@ permission_list = pd.concat([permission_list,
                              pd.DataFrame({'name': 'delete_model', 'resource': '/model/',
                                            'method': "DELETE", 'description': 'Delete model'},
                                           index=[0])])
+permission_list = pd.concat([permission_list,
+                                pd.DataFrame({'name': 'upload_faceswap_image', 'resource': '/user/image/faceswap/upload/',
+                                                'method': "POST", 'description': 'Upload faceswap image'},
+                                                index=[0])]) 
+permission_list = pd.concat([permission_list,
+                                pd.DataFrame({'name': 'post_faceswap_image', 'resource': '/user/image/faceswap/',
+                                                'method': "POST", 'description': 'Post faceswap image'},
+                                                index=[0])])
 
 user_permissions = pd.DataFrame(columns=['name', 'resource', 'description'])
 user_permissions = pd.concat([user_permissions,
@@ -258,3 +275,11 @@ user_permissions = pd.concat([user_permissions,
                               pd.DataFrame({'name': 'generate_txt2img_v2_sd15', 'resource': '/user/image/txt2img/v2/sd15/',
                                             'method': "POST", 'description': 'Generate image from text'},
                                            index=[0])])
+user_permissions = pd.concat([user_permissions,
+                                pd.DataFrame({'name': 'upload_faceswap_image', 'resource': '/user/image/faceswap/upload/',
+                                                'method': "POST", 'description': 'Upload faceswap image'},
+                                                index=[0])])
+user_permissions = pd.concat([user_permissions,
+                                pd.DataFrame({'name': 'post_faceswap_image', 'resource': '/user/image/faceswap/',
+                                                'method': "POST", 'description': 'Post faceswap image'},
+                                                index=[0])])

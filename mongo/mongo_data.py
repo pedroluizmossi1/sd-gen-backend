@@ -31,8 +31,8 @@ plan_resources = [{
     'BASE_Y': 1024,
     'HIGRESFIX': 2,
     'STEPS': 50,
-    'SD15_SAMPLER': ["Euler", "Euler a", "UniPC", "dpmpp_2m"],
-    'SDXL_SAMPLER': ["Euler", "Euler a", "UniPC", "dpmpp_2m"],
+    'SD15_SAMPLER': ["euler", "euler_ancestral", "uni_pc", "dpmpp_2m", "uni_pc_bh2"],
+    'SDXL_SAMPLER': ["euler", "euler_ancestral", "uni_pc", "dpmpp_2m", "uni_pc_bh2"],
     'BATCH_SIZE': 2,
     'MODELS': {
         'SDXL': [],
@@ -122,7 +122,7 @@ SD15_MODEL_INFO = {
     "width": 512,
     "height": 768,
     "steps": 20,
-    "sampler_name": "UniPC",
+    "sampler_name": "uni_pc",
     "cfg_scale": 7
 }
 

@@ -20,14 +20,11 @@ router_auth = APIRouter(
 )
 
 async def authorize_token(credentials: HTTPAuthorizationCredentials = Depends(auth_scheme)):
-    try:
-        response = get_json(credentials.credentials)
-        if response:
-            return json.loads(response)["login"]
-        else:
-            raise HTTPException(status_code=401, detail="Token invalid")
-    except Exception as err:
-        raise HTTPException(status_code=500, detail=str(err)) from err
+    response = get_json(credentials.credentials)
+    if response:
+        return json.loads(response)["login"]
+    else:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
     
 async def check_permission(request: Request, login: str = Depends(authorize_token)):
     """
@@ -87,7 +84,7 @@ async def user_login(user_login: user_model.User.Login):
     login = user_functions.login_user(user_login.login, user_login.password)
     token = insert_json(json.dumps({"login":user_login.login}), 36000)
     if login is True and token is not False:
-        return {"message": "Login success", "token": token}
+        return {"message": "Login success", "token": token, "ttl": 36000}
     else:
         raise HTTPException(status_code=401, detail="Failed to login, check your login or password")
 
@@ -111,6 +108,18 @@ async def check_token(token: str):
         return True
     else:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
+    
+@router_auth.post("/token/refresh/")
+async def refresh_token(authenticated: bool = Depends(check_permission)):
+    """Refresh token"""
+    if authenticated:
+        token = insert_json(json.dumps({"login":authenticated["login"]}), 36000)
+        if token is not False:
+            return {"message": "Token refreshed", "token": token, "ttl": 36000}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to refresh token")
+    else:
+        raise HTTPException(status_code=401, detail="Unauthorized")
         
 @router_auth.post("/password/reset/token/",
                   summary="Send reset password token to email",

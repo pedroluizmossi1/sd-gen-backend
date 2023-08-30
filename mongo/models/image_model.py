@@ -9,6 +9,8 @@ class Image(BaseModel):
     info: dict = {}
     type: str = "txt2img"
     image: bytes
+    created_at: str = None
+    updated_at: str = None
     class Config:
         schema_extra = {
             "example": {

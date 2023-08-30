@@ -13,7 +13,7 @@ def create_image(image, folder, user):
     try:
         image.owner = ObjectId(user)
         image = mongo_core.collection_images.insert_one(image.dict())
-        print(folder)
+        mongo_core.collection_images.update_one({"_id": image.inserted_id}, {"$currentDate": {"created_at": True, "updated_at": True}})
         if image:
             if mongo_core.is_valid_objectid(folder):
                 folder = mongo_core.collection_folders.update_one({"_id": ObjectId(folder), "owner": ObjectId(user)},{"$addToSet": {"images": ObjectId(image.inserted_id)}})

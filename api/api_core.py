@@ -33,7 +33,7 @@ origins = [
 APP_NAME = os.environ.get("APP_NAME", "app")
 OTLP_GRPC_ENDPOINT = "http://localhost:4317"
 #app.add_middleware(PrometheusMiddleware, app_name="app")
-app.add_route("/metrics", metrics)
+#app.add_route("/metrics", metrics)
 
 
 

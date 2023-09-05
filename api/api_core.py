@@ -66,7 +66,3 @@ app.include_router(router_role)
 app.include_router(router_plan)
 app.include_router(router_model)
 
-
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
+from pydantic import BaseModel, Field, constr, ValidationError, validator
 
 class Plan(BaseModel):
     name: constr(min_length=3, max_length=20, regex="^[a-zA-Z0-9_-]+$")

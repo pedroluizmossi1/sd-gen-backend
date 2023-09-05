@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
+from pydantic import BaseModel, Field, constr, ValidationError, validator
 
 class Permission(BaseModel):
     name: str

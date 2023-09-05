@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
+from pydantic import BaseModel, Field, constr, ValidationError, validator
 from datetime import date, datetime, time, timedelta
 from functions_core import get_config
 import time

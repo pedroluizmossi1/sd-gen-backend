@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, constr, validate_model, ValidationError, validator
+from pydantic import BaseModel, Field, constr, ValidationError, validator
 
 class Model(BaseModel):
     name: constr(min_length=3, max_length=50) = Field(..., description="The name of the model.")

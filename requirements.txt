@@ -13,3 +13,5 @@ starlette
 uvicorn
 websockets==11.0.3
 opentelemetry-distro
+opentelemetry-api
+opentelemetry-sdk

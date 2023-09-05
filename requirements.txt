@@ -12,4 +12,3 @@ Requests
 starlette
 uvicorn
 websockets==11.0.3
-opentelemetry

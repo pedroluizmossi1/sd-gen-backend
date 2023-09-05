@@ -17,7 +17,7 @@ from .api_users import router_user as router_user
 from .api_users_folder import router_user_folder as router_user_folder
 from .api_users_images import router_user_image as router_user_image
 from .api_users_model import router_user_model as router_user_model
-from .utils import PrometheusMiddleware, metrics, setting_otlp
+#from .utils import PrometheusMiddleware, metrics, setting_otlp
 
 app = FastAPI()
 origins = [
@@ -32,8 +32,8 @@ origins = [
 
 APP_NAME = os.environ.get("APP_NAME", "app")
 OTLP_GRPC_ENDPOINT = "http://localhost:4317"
-app.add_middleware(PrometheusMiddleware, app_name="app")
-app.add_route("/metrics", metrics)
+#app.add_middleware(PrometheusMiddleware, app_name="app")
+#app.add_route("/metrics", metrics)
 
 
 

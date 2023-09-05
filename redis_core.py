@@ -10,7 +10,10 @@ db = get_config('REDIS', 'redis_db')
 user = get_config('REDIS', 'redis_user')
 password = get_config('REDIS', 'redis_password')
 
-r = redis.Redis(host=host, port=port, decode_responses=True, db=db, username=user, password=password)
+r = redis.Redis(
+  host='redis-17364.c258.us-east-1-4.ec2.cloud.redislabs.com',
+  port=17364,
+  password='CwchI4FcqwYG3e9OU6RvpichjxmiqsJf')
 
 def insert_json(json, time):
     hash = generate_hash()

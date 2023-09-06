@@ -15,19 +15,22 @@ import re
 import ast
 import pydantic
 import time
+import os
+from dotenv import load_dotenv
+
 
 
 mongo_obj_str = pydantic.json.ENCODERS_BY_TYPE[ObjectId]=str
 # This code is used to convert MongoDB's ObjectId to str
 # It is used in MongoDB CRUD operations
 
-
+load_dotenv()
 mongo_host = get_config('MONGODB', 'mongodb_host')
 mongo_port = get_config('MONGODB', 'mongodb_port')
 mongo_db = get_config('MONGODB', 'mongodb_db')
 mongo_user = get_config('MONGODB', 'mongodb_user')
 mongo_password = get_config('MONGODB', 'mongodb_password')
-mongo_string = get_config('MONGODB', 'mongodb_string')
+mongo_string = os.getenv('MONGODB_STRING')
 mongo_string_active = ast.literal_eval(get_config('MONGODB', 'mongodb_string_active'))
 
 if mongo_string_active == False:

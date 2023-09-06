@@ -2,18 +2,23 @@ import redis
 from crypto_dash.crypto_core import generate_hash
 from fastapi import HTTPException
 import json
+import os
 from config_core import get_config
+from dotenv import load_dotenv
 
-host = get_config('REDIS', 'redis_host')
+load_dotenv()
+host = os.getenv('REDIS_HOST')
 port = get_config('REDIS', 'redis_port')
 db = get_config('REDIS', 'redis_db')
 user = get_config('REDIS', 'redis_user')
-password = get_config('REDIS', 'redis_password')
+password = os.getenv('REDIS_PASSWORD')
 
 r = redis.Redis(
-  host='redis-17364.c258.us-east-1-4.ec2.cloud.redislabs.com',
-  port=17364,
-  password='CwchI4FcqwYG3e9OU6RvpichjxmiqsJf')
+  host=host,
+  port=port,
+  username=user,
+  password=password
+)
 
 def insert_json(json, time):
     hash = generate_hash()

@@ -145,7 +145,8 @@ async def reset_password_token(login: str):
 async def reset_password(login: str, reset_token: int, new_password: str):
     """Reset password with token"""
     redis_data = get_hash(reset_token)
-    if redis_data and redis_data["login"] == login:
+    decoded_data = {key.decode('utf-8'): value.decode('utf-8') for key, value in redis_data.items()}
+    if decoded_data and decoded_data["login"] == login:
         user_functions.update_user_password(login, new_password)
         delete_hash(reset_token)
         return {"message": "Password reset success"}
